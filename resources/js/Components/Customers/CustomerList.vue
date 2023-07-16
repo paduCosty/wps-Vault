@@ -1,11 +1,10 @@
-<script setup>
+<template>
+    <a href="customers/create" @click="showTable" class="btn btn-warning">Customer</a>
+</template>
+  
+<script>
 
 </script>
-
-<template>
-asdfasdf
-</template>
-
-<style scoped>
-
-</style>
+  
+<style scoped></style>
+  
