@@ -1,5 +1,5 @@
 <template>
-    <a href="customers/create" @click="showTable" class="btn btn-warning">Customer</a>
+    <a href="customers/create" @click="showTable" class="btn btn-warning">Customers Create</a>
 </template>
   
 <script>
