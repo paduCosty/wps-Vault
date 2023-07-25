@@ -5,6 +5,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import InvoiceList from "../Components/Invoices/InvoiceList.vue";
 import MainLayout from "../Layouts/Navbar/MainLayout.vue";
 import CustomerList from "../Components/Customers/CustomerList.vue";
+import CustomerForm from "../Components/Customers/CustomerForm.vue";
+import CustomerEditForm from "../Components/Customers/CustomerEditForm.vue";
+import CustomerShowForm from "../Components/Customers/CustomerShowForm.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,6 +15,10 @@ const router = createRouter({
 
         { path: '/', component: InvoiceList },
         { path: '/customers', component: CustomerList },
+        { path: '/customers/create', component: CustomerForm },
+        { path: '/customers/edit/:id', component: CustomerEditForm },
+        { path: '/customers/put/:id', component: CustomerEditForm },
+        { path: '/customers/show/:id', component: CustomerShowForm },
         // { path: '/portfolio', component: Portfolio },
         // { path: '/contact', component: Contact },
 
