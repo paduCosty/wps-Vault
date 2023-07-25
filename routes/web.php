@@ -20,8 +20,12 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/customers/create', [CustomerController::class, 'store']);
+Route::get('/api/customers', [CustomerController::class, 'index']);
+
 
 Route::get('/{any}', function () {
     return view('app');
 })->where('any', '.*');
-Route::post('/customers/create', [CustomerController::class, 'store']);
+
+
