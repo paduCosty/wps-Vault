@@ -49,13 +49,12 @@
 </template>
 
 
-  
-  
-  
+
+
+
 <script>
 import axios from "axios";
-
-
+/*trebuie sa importi fisierul css*/
 export default {
 
     data() {
@@ -75,7 +74,7 @@ export default {
     methods: {
         async fetchCustomer(id) {
             try {
-
+//aici foloseste o librarie pentru a lua domeniul apliactiei (fa asta peste tot)
                 const response = await axios.get(`http://127.0.0.1:8000/api/customers/${id}`);
                 this.customer = response.data;
             } catch (error) {
@@ -99,8 +98,9 @@ export default {
 
     },
 };
+
 </script>
-  
+<!--scoate css-ul de aici-->
 <style scoped>
 .rainbow-button {
     width: 650px;
