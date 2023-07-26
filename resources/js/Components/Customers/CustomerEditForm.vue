@@ -61,7 +61,7 @@ export default {
     data() {
         return {
             customer: {
-                id: null, // Adăugăm id-ul ca proprietate în obiectul customer
+                id: null, // Add id some propieti
                 company_name: "",
                 contact_name: "",
                 email: "",
@@ -87,9 +87,9 @@ export default {
                 const response = await axios.put(`http://127.0.0.1:8000/api/customers/${this.customer.id}`, this.customer);
 
                 console.log("Changes saved:", response.data);
-                this.$router.push("/customers"); // Redirecționează către ruta /api/customers
+                this.$router.push("/customers"); //forwards to customers
             } catch (error) {
-                // console.error("Error saving changes:", error);
+                console.error("Error saving changes:", error);
             }
         },
     },
@@ -135,8 +135,6 @@ export default {
 
 .custom-background {
     background-color: #f2f2f2;
-    /* Culorea gri deschis */
     padding: 10px;
-    /* Adăugăm o mică margine în jurul elementului pentru a delimita fundalul */
 }
 </style>
