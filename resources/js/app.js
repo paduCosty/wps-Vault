@@ -38,35 +38,3 @@
 //  */
 
 // app.mount('#app');
-import axios from 'axios';
-
-export default {
-    el: '#app', // Montați instanța Vue pe elementul cu id-ul "app"
-    data() {
-        return {
-            showTable: true,
-            company_name: '',
-            contact_name: '',
-            email: '',
-            vat_number: '',
-            status: '',
-            type: '',
-            customers: [], // Lista de clienți din backend
-        };
-    },
-    methods: {
-        async fetchCustomers() {
-            try {
-                const response = await axios.get("http://127.0.0.1:8000/customers/index");
-                this.customers = response.data;
-                console.log(this.customers);
-                // Actualizează starea cu lista de clienți primiți de la server
-            } catch (error) {
-                console.error("Error fetching customers:", error);
-            }
-        },
-    },
-    created() {
-        this.fetchCustomers(); // Apelează funcția fetchCustomers pentru a obține datele inițiale la încărcarea paginii
-    },
-};

@@ -12,8 +12,7 @@ class CustomerController extends Controller
     {
       
         $customers = Customer::paginate(15);
-        // dd($customers);
-        // dd('test');
+        
         return response()->json($customers);
     }
 
@@ -27,7 +26,7 @@ class CustomerController extends Controller
 
     public function edit($id)
     {
-        // dd($customer);
+       
         $customer = Customer::find($id);
 
         
@@ -52,7 +51,7 @@ class CustomerController extends Controller
         ]);
         
 
-        // dd($validatedData);
+       
         $validatedData['user_id'] = $user_id;
         $customer = Customer::create($validatedData);
         
