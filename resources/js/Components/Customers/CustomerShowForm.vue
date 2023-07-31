@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-      <h2 class="text-center">{{ customer.contact_name }}</h2>
+  <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+    <h2 class="text-center">{{ customer.contact_name }}</h2>
       <form class="form">
         <div class="col-md-5">
           <div class="form-group custom-background"><strong class="custom-label">Company Name:</strong></div>
@@ -23,23 +23,18 @@
         </div>
 
         <div class="col-md-5">
-          <div class="form-group custom-background"><strong class="custom-label">Status:</strong></div>
-          <div class="form-control">{{ customer.status }}</div>
-        </div>
-
-        <div class="col-md-5">
           <div class="form-group custom-background"><strong class="custom-label">Type:</strong></div>
           <div class="form-control">{{ customer.type }}</div>
         </div>
-      </form>
-    </div>
-  </template>
+        <button @click="goToCustomers" class="btn btn-secondary">Back to Customers</button>
+    </form>
+  </div>
+</template>
 
 
+<script>
+import axios from 'axios';
 
-  <script>
-  import axios from 'axios';
-  //importa aici css-ul din assets
   export default {
     data() {
       return {
@@ -49,12 +44,15 @@
     methods: {
       async fetchCustomer(id) {
         try {
-
-          const response = await axios.get(`http://127.0.0.1:8000/api/customers/${id}`);
+          const response = await axios.get(`/api/customers/${id}`);
           this.customer = response.data;
         } catch (error) {
           console.error("Error fetching customer:", error);
         }
+      },
+      // Method for redirection to "Customers";
+      goToCustomers() {
+        this.$router.push("/customers");
       },
     },
     created() {
@@ -62,26 +60,9 @@
       this.fetchCustomer(customerId);
     },
   };
-  </script>
+</script>
 
-  <style scoped>
-  .custom-label {
-    color: #555;
-    font-weight: bold;
-  }
 
-  .custom-value {
-    color: #ef9c76;
-  }
-
-  .custom-background {
-    background-color: #f2f2f2;
-    /* Culorea gri deschis */
-    padding: 10px;
-    /* Adăugăm o mică margine în jurul elementului pentru a delimita fundalul */
-  }
-
-  .form {
-    margin-left: 550px;
-  }
-  </style>
+<style scoped>
+  @import '@/Assets/Components/customers.css';
+</style>

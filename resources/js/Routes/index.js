@@ -21,11 +21,11 @@ const router = createRouter({
         { path: '/customers/show/:id', component: CustomerShowForm },
 
         /*Modifica aici rutele pentru facturi vafi tot asa un crud*/
-        { path: '/bills', component: CustomerList },
-        { path: '/customers/create', component: CustomerForm },
-        { path: '/customers/edit/:id', component: CustomerEditForm },
-        { path: '/customers/put/:id', component: CustomerEditForm },
-        { path: '/customers/show/:id', component: CustomerShowForm },
+        // { path: '/bills', component: CustomerList },
+        // { path: '/customers/create', component: CustomerForm },
+        // { path: '/customers/edit/:id', component: CustomerEditForm },
+        // { path: '/customers/put/:id', component: CustomerEditForm },
+        // { path: '/customers/show/:id', component: CustomerShowForm },
 
         // { path: '/portfolio', component: Portfolio },
         // { path: '/contact', component: Contact },
@@ -34,5 +34,6 @@ const router = createRouter({
 });
 
 const app = createApp(MainLayout);
+app.config.globalProperties.$appUrl = import.meta.env.APP_URL;
 app.use(router);
 app.mount('#app');

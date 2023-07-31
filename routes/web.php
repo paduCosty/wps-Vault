@@ -27,5 +27,3 @@ Route::get('/api/customers', [CustomerController::class, 'index']);
 Route::get('/{any}', function () {
     return view('app');
 })->where('any', '.*');
-
-
