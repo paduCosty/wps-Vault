@@ -45,7 +45,7 @@
         </div>
     </div>
 </template>
-  
+
 
 <script>
 import axios from 'axios';
@@ -74,7 +74,7 @@ import axios from 'axios';
                         headers['X-CSRF-TOKEN'] = csrfToken;
                     }
 
-                    const response = await axios.post("/customers/create", {
+                    const response = await axios.post("/api/customers", {
                         company_name: this.company_name,
                         contact_name: this.contact_name,
                         email: this.email,
@@ -97,7 +97,6 @@ import axios from 'axios';
         },
     };
 </script>
-
 
 <style scoped>
 </style>
