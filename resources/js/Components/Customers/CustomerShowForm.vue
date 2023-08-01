@@ -27,10 +27,10 @@
           <div class="form-control">{{ customer.type }}</div>
         </div>
         <button @click="goToCustomers" class="btn btn-secondary">Back to Customers</button>
+  
     </form>
   </div>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -61,7 +61,6 @@ import axios from 'axios';
     },
   };
 </script>
-
 
 <style scoped>
   @import '@/Assets/Components/customers.css';
