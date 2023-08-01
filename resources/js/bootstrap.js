@@ -1,4 +1,5 @@
 import 'bootstrap';
+const mixAppUrl = process.env.MIX_APP_URL;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+    <div class="flex justify-center mt-3 sm:items-center sm:justify-between">
         <div class="text-center">
             <h2 class="text-center">{{ customer.contact_name }}</h2>
             <form class="form">
@@ -28,13 +28,11 @@
                         </div>
 
                         <div class="form-group custom-background">
-                            <label for="status">Status:</label>
-                            <input class="form-control" type="text" id="status" v-model="customer.status" />
-                        </div>
-
-                        <div class="form-group custom-background">
                             <label for="type">Type:</label>
-                            <input class="form-control" type="text" id="type" v-model="customer.type" />
+                            <select class="form-control" id="type" v-model="customer.type">
+                                <option value="Business">Business</option>
+                                <option value="Individual">Individual</option>
+                            </select>
                         </div>
 
                         <input type="hidden" id="customer_id" v-model="customer.id" />
@@ -48,95 +46,51 @@
     </div>
 </template>
 
-
-  
-  
-  
 <script>
 import axios from "axios";
 
-
-export default {
-
-    data() {
-        return {
-            customer: {
-                id: null, // Adăugăm id-ul ca proprietate în obiectul customer
-                company_name: "",
-                contact_name: "",
-                email: "",
-                vat_number: "",
-                status: "",
-                type: "",
+    export default {
+        data() {
+            return {
+                customer: {
+                    id: null,
+                    company_name: "",
+                    contact_name: "",
+                    email: "",
+                    vat_number: "",
+                    type: "",
+                },
+            };
+        },
+        // fecth the Customer
+        methods: {
+            async fetchCustomer(id) {
+                try {
+                    const response = await axios.get(`/api/customers/${id}`);
+                    this.customer = response.data;
+                } catch (error) {
+                    console.error("Error fetching customer:", error);
+                }
             },
-        };
-    },
-
-    methods: {
-        async fetchCustomer(id) {
-            try {
-
-                const response = await axios.get(`http://127.0.0.1:8000/api/customers/${id}`);
-                this.customer = response.data;
-            } catch (error) {
-                console.error("Error fetching customer:", error);
-            }
+            async saveChanges() {
+                try {
+                    const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
+                    console.log("Changes saved:", response.data);
+                    this.$router.push("/customers"); //Push to back route
+                } catch (error) {
+                    console.error("Error saving changes:", error);
+                }
+            },
         },
-        async saveChanges() {
-            try {
-                const response = await axios.put(`http://127.0.0.1:8000/api/customers/${this.customer.id}`, this.customer);
-
-                console.log("Changes saved:", response.data);
-                this.$router.push("/customers"); // Redirecționează către ruta /api/customers
-            } catch (error) {
-                // console.error("Error saving changes:", error);
-            }
+        created() {
+            const customerId = this.$route.params.id;
+            this.fetchCustomer(customerId);
         },
-    },
-    created() {
-        const customerId = this.$route.params.id;
-        this.fetchCustomer(customerId);
-
-    },
-};
+    };
 </script>
-  
+
+
 <style scoped>
-.rainbow-button {
-    width: 650px;
-    height: 40px;
-    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    border: none;
-    margin-top: 10px;
-}
-
-.rainbow-button:hover {
-    animation: slidebg 2s linear infinite;
-}
-
-@keyframes slidebg {
-    to {
-        background-position: 200px;
-    }
-}
-
-.form {
-    margin-left: 345px;
-}
-
-.custom-background {
-    background-color: #f2f2f2;
-    /* Culorea gri deschis */
-    padding: 10px;
-    /* Adăugăm o mică margine în jurul elementului pentru a delimita fundalul */
-}
+/* Inport style  */
+    @import '@/Assets/Components/customers.css';
 </style>

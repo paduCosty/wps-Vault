@@ -65,8 +65,6 @@ use Illuminate\Support\Facades\Auth;
 =======
       
         $customers = Customer::paginate(15);
-        // dd($customers);
-        // dd('test');
         return response()->json($customers);
     }
 
@@ -80,53 +78,45 @@ use Illuminate\Support\Facades\Auth;
 
     public function edit($id)
     {
-        // dd($customer);
         $customer = Customer::find($id);
-
-        
-        
         return response()->json($customer);
     }
 
     
     public function store(Request $request)
     {
-        
         $user_id = Auth::user()->id;  
            
         $validatedData = $request->validate([
-            'contact_name' => 'required|unique:customers,contact_name',
-            'company_name' => 'required|unique:customers,company_name',
-            'email' => 'required|email|unique:customers,email',
-            'vat_number' => 'required|unique:customers,vat_number',
+            'contact_name' => 'required',
+            'company_name' => 'required',
+            'email' => 'required',
+            'vat_number' => 'required',
             'type' => 'required',
-            'status' => 'required',
-            
         ]);
-        
-
-        // dd($validatedData);
+       
         $validatedData['user_id'] = $user_id;
+
         $customer = Customer::create($validatedData);
         
-        return response()->json($customer, 201);
+        return response()->json(['status'=> 200]);
     }
+
 
     public function update(Request $request, Customer $customer)
     {
         $validatedData = $request->validate([
-            'contact_name' => 'required|unique:customers,contact_name,'.$customer->id,
-            'company_name' => 'required|unique:customers,company_name,'.$customer->id,
-            'email' => 'required|email|unique:customers,email,'.$customer->id,
-            'vat_number' => 'required|unique:customers,vat_number,'.$customer->id,
+            'contact_name' => 'required',
+            'company_name' => 'required',
+            'email' => 'required',
+            'vat_number' => 'required',
             'type' => 'required',
-            'status' => 'required',
         ]);
-       
         $customer->update($validatedData);
-
-    return response()->json($customer, 200);
-}
+    
+        return response()->json($customer, 200);
+    }
+    
 
     
 
