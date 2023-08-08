@@ -1,0 +1,55 @@
+/* her is from InvoiceItem */
+.right {
+    margin-right: -170px;
+}
+
+.custom-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    margin-right: 0.5rem;
+}
+
+.custom-btn:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.custom-btn-warning {
+    background-color: #f39c12;
+    /* Orange */
+    color: #fff;
+}
+
+.custom-btn-info {
+    background-color: #3498db;
+    /* Blue */
+    color: #fff;
+}
+
+.custom-btn-success {
+    background-color: #2ecc71;
+    /* Green */
+    color: #fff;
+}
+/* finis from InvoiceItem */
+
+
+
+/* Show Invoices */
+.form {
+    margin-left: 455px;
+}
+/* End the  Invoices */
+
+
+
+
+/* Show Invoices */

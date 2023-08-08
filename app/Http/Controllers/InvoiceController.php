@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -14,48 +16,52 @@ class InvoiceController extends Controller
         return response()->json($invoices);
     }
 
-    public function show(Invoice $invoice)
+    public function show(Request $request, $id)
     {
+        $invoice = Invoice::find($id);
         return response()->json($invoice);
+    }
+
+    public function edit($id)
+    {
+        $invoices = Invoice::find($id);
+        return response()->json($invoices);
     }
 
     public function store(Request $request)
     {
+        $user_id = Auth::user()->id;
+    
         $validatedData = $request->validate([
-            'user_id' => 'required',
             'customer_id' => 'required',
-            'invoice_item_id' => 'required',
             'invoice_number' => 'required',
             'due_date' => 'required|date',
-            'payment_term' => ['required', Rule::in(['7', '12', '14'])],
+            'payment_term' => ['required', Rule::in(['7', '14', '30'])],
             'currency' => ['required', Rule::in(['ron', 'eur', 'usd'])],
             'type' => ['required', Rule::in(['general'])],
-            'status' => ['required', Rule::in(['sent', 'pending', 'paid', 'unpaid'])],
         ]);
-
-        $invoice = Invoice::create($validatedData);
-
-        return response()->json($invoice, 201);
-    }
-
-    public function update(Request $request, Invoice $invoice)
-    {
-        $validatedData = $request->validate([
-            'user_id' => 'required',
-            'customer_id' => 'required',
-            'invoice_item_id' => 'required',
-            'invoice_number' => 'required',
-            'due_date' => 'required|date',
-            'payment_term' => ['required', Rule::in(['7', '12', '14'])],
-            'currency' => ['required', Rule::in(['ron', 'eur', 'usd'])],
-            'type' => ['required', Rule::in(['general'])],
-            'status' => ['required', Rule::in(['sent', 'pending', 'paid', 'unpaid'])],
-        ]);
-
-        $invoice->update($validatedData);
+        // dd($invoices);
 
         return response()->json($invoice, 200);
+      
     }
+    
+    public function update(Request $request, Invoice $invoice)
+    {
+        $user_id = Auth::user()->id;
+    
+        $validatedData = $request->validate([
+            'customer_id' => 'required',
+            'invoice_number' => 'required',
+            'due_date' => 'required|date',
+            'payment_term' => ['required', Rule::in(['7', '14', '30'])],
+            'currency' => ['required', Rule::in(['ron', 'eur', 'usd'])],
+            'type' => ['required', Rule::in(['general'])],
+        ]);
+    
+        return response()->json($invoice, 200);
+    }
+    
 
     public function destroy(Invoice $invoice)
     {
@@ -63,4 +69,4 @@ class InvoiceController extends Controller
 
         return response()->json(null, 204);
     }
-}
+    }

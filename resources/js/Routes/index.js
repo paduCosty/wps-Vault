@@ -8,10 +8,29 @@ import CustomerList from "../Components/Customers/CustomerList.vue";
 import CustomerForm from "../Components/Customers/CustomerForm.vue";
 import CustomerEditForm from "../Components/Customers/CustomerEditForm.vue";
 import CustomerShowForm from "../Components/Customers/CustomerShowForm.vue";
+// End components
+
+// Import invoices
+import InvoiceDetails from "../Components/Invoices/InvoiceDetails.vue";
+import InvoiceForm from "../Components/Invoices/InvoiceForm.vue";
+import InvoiceItem from "../Components/Invoices/InvoiceItem.vue";
+import InvoiceShow from "../Components/Invoices/InvoiceShow.vue";
+// End invoices
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+
+
+        /*Modifica aici rutele pentru facturi vafi tot asa un crud*/
+        { path: '/', component: InvoiceList },
+        { path: '/bills/', component: InvoiceItem },
+        { path: '/bills/create', component: InvoiceForm },
+        { path: '/invoices/edit/:id', component: InvoiceDetails },
+        { path: '/invoices/put/:id', component: InvoiceDetails },
+        { path: '/invoices/show/:id', component: InvoiceShow },
+
+
 
         { path: '/', component: InvoiceList },
         { path: '/customers', component: CustomerList },
@@ -20,12 +39,8 @@ const router = createRouter({
         { path: '/customers/put/:id', component: CustomerEditForm },
         { path: '/customers/show/:id', component: CustomerShowForm },
 
-        /*Modifica aici rutele pentru facturi vafi tot asa un crud*/
-        // { path: '/bills', component: CustomerList },
-        // { path: '/customers/create', component: CustomerForm },
-        // { path: '/customers/edit/:id', component: CustomerEditForm },
-        // { path: '/customers/put/:id', component: CustomerEditForm },
-        // { path: '/customers/show/:id', component: CustomerShowForm },
+
+
 
         // { path: '/portfolio', component: Portfolio },
         // { path: '/contact', component: Contact },

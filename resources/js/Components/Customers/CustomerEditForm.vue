@@ -46,47 +46,51 @@
     </div>
 </template>
 
+
 <script>
 import axios from "axios";
+import ExampleComponent from "../ExampleComponent.vue";
 
     export default {
-        data() {
-            return {
-                customer: {
-                    id: null,
-                    company_name: "",
-                    contact_name: "",
-                    email: "",
-                    vat_number: "",
-                    type: "",
-                },
-            };
-        },
-        // fecth the Customer
-        methods: {
-            async fetchCustomer(id) {
-                try {
-                    const response = await axios.get(`/api/customers/${id}`);
-                    this.customer = response.data;
-                } catch (error) {
-                    console.error("Error fetching customer:", error);
-                }
+    data() {
+        return {
+            customer: {
+                id: null,
+                company_name: "",
+                contact_name: "",
+                email: "",
+                vat_number: "",
+                type: "",
             },
-            async saveChanges() {
-                try {
-                    const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
-                    console.log("Changes saved:", response.data);
-                    this.$router.push("/customers"); //Push to back route
-                } catch (error) {
-                    console.error("Error saving changes:", error);
-                }
-            },
+        };
+    },
+    // fecth the Customer
+    methods: {
+        async fetchCustomer(id) {
+            try {
+                const response = await axios.get(`/api/customers/${id}`);
+                this.customer = response.data;
+            }
+            catch (error) {
+                console.error("Error fetching customer:", error);
+            }
         },
-        created() {
-            const customerId = this.$route.params.id;
-            this.fetchCustomer(customerId);
+        async saveChanges() {
+            try {
+                const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
+                console.log("Changes saved:", response.data);
+                this.$router.push("/customers"); //Push to back route
+            }
+            catch (error) {
+                console.error("Error saving changes:", error);
+            }
         },
-    };
+    },
+    created() {
+        const customerId = this.$route.params.id;
+        this.fetchCustomer(customerId);
+    },
+};
 </script>
 
 
