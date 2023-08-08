@@ -49,7 +49,6 @@
 
 <script>
 import axios from "axios";
-import ExampleComponent from "../ExampleComponent.vue";
 
     export default {
     data() {

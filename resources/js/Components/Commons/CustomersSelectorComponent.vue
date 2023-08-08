@@ -1,16 +1,16 @@
 <template>
     <div class="col-sm-7 flex-column d-flex">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
-        <select v-name="customer_id" v-model="selectedCustomer" class="form-control" @change="fetchCustomerDetails">
+        <select v-model="selectedCustomer" class="form-control" @change="emitCustomerSelected">
             <option value="" disabled>Select a customer</option>
-            <option v-for="customer in customers.data" :key="customer.id" :value="customer.id" v-name="customer_id">
+            <option v-for="customer in customers.data" :key="customer.id" :value="customer.id">
                 {{ customer.contact_name }}
             </option>
         </select>
     </div>
 </template>
 
-  
+
 <script>
 import axios from 'axios';
 
@@ -18,7 +18,6 @@ export default {
     data() {
         return {
             selectedCustomer: '',
-            customer_id: '',
             customers: [],
         };
     },
@@ -35,18 +34,9 @@ export default {
                 console.error("Error fetching customers:", error);
             }
         },
-        async fetchCustomerDetails() {
-            try {
-                const response = await axios.get(`/api/customers/${this.selectedCustomer}`);
-                if (response.status === 200) {
-                    const customer = response.data;
-                    console.log("Selected customer details:", this.customers, 'aici este ');
-                } else {
-                    console.error("Error fetching customer details:");
-                }
-            } catch (error) {
-                console.error("Error fetching customer details:", error);
-            }
+
+        emitCustomerSelected() {
+            this.$emit('customer-selected', this.selectedCustomer);
         }
     },
     mounted() {

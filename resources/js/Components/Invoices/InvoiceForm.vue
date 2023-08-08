@@ -7,7 +7,10 @@
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-10 flex-column d-flex">
                                 <div class="row justify-content-between text-left mb-3">
-                                    <CustomersSelectorComponent  class="form-control- label">
+                                    <CustomersSelectorComponent
+                                        @customer-selected="handleOptionSelected"
+                                        class="form-control- label"
+                                    >
                                     </CustomersSelectorComponent>
 
                                 </div>
@@ -17,7 +20,7 @@
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Invoice Number<span
-                                        class="text-danger"></span></label>
+                                    class="text-danger"></span></label>
                                 <input type="number" placeholder="Invoice Number" class="form-control">
                             </div>
                         </div>
@@ -28,7 +31,8 @@
                             </div>
 
                             <div class="col-sm-6 flex-column d-flex">
-                                <label class="form-control-label px-3">Payment Term<span class="text-danger"></span></label>
+                                <label class="form-control-label px-3">Payment Term<span
+                                    class="text-danger"></span></label>
                                 <select v-model="payment_term" class="form-select">
                                     <option v-for="option in payment_term_options" :key="option" :value="option">
                                         {{ option }}
@@ -54,8 +58,9 @@
                         </div>
                         <div class="row justify-content-end">
                             <div class="form-group col-sm-6">
-                                <input value="Add New Invoices" type="button" @click.prevent="addInvoices" id="addInvoices"
-                                    class="btn-block btn-danger">
+                                <input value="Add New Invoices" type="button" @click.prevent="addInvoices"
+                                       id="addInvoices"
+                                       class="btn-block btn-danger">
                             </div>
                         </div>
                     </form>
@@ -64,13 +69,13 @@
         </div>
     </div>
 </template>
-  
-  
+
 
 <script>
 import axios from 'axios';
 
 import CustomersSelectorComponent from '../Commons/CustomersSelectorComponent.vue';
+
 export default {
     components: {
         CustomersSelectorComponent,
@@ -89,6 +94,10 @@ export default {
         };
     },
     methods: {
+        handleOptionSelected(option) {
+            this.customer_id = option;
+        },
+
         async addInvoices() {
             try {
                 const csrfMeta = document.head.querySelector('meta[name="csrf-token"]');
@@ -101,41 +110,46 @@ export default {
                 if (csrfToken) {
                     headers['X-CSRF-TOKEN'] = csrfToken;
                 }
-            
-alert(this.customer_id);
-                const response = await axios.post("/api/invoices", {
+
+                console.log({
                     customer_id: this.customer_id,
                     invoice_number: this.invoice_number,
                     due_date: this.due_date,
                     payment_term: this.payment_term,
                     currency: this.currency,
-                    type: this.type,
-                }, {
-                    headers: headers,
+                    type: this.type
                 });
+                // const response = await axios.post("/api/invoices", {
+                //     customer_id: this.customer_id,
+                //     invoice_number: this.invoice_number,
+                //     due_date: this.due_date,
+                //     payment_term: this.payment_term,
+                //     currency: this.currency,
+                //     type: this.type,
+                // }, {
+                //     headers: headers,
+                // });
 
-                if (response.status === 200) {
-                    console.log("Invoice created successfully!");
-                    this.$router.push("/bills");
-                } else {
-                    console.error("Error creating Invoice:");
-                }
+                //     if (response.status === 200) {
+                //         console.log("Invoice created successfully!");
+                //         this.$router.push("/bills");
+                //     } else {
+                //         console.error("Error creating Invoice:");
+                //     }
             } catch (error) {
                 console.error("Error creating Invoice:", error);
-                // console.log(this.customer_id);
-                // console.log(CustomersSelectorComponent, 'sdsd');
-                alert(this.customers);
+                // alert(this.customers);
             }
         },
         async fetchPaymentTermOptions() {
-            // Simulăm o solicitare GET către server pentru a obține opțiunile de plată
             this.payment_term_options = ['7', '14', '30'];
 
         },
+
     },
     mounted() {
         this.fetchPaymentTermOptions(); // Apelează metoda pentru a popula opțiunile de plată
-        // console.log(CustomersSelectorComponent);
+
 
     },
 };
