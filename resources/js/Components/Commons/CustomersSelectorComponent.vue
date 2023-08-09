@@ -1,4 +1,5 @@
 <template>
+    dsd
     <div class="col-sm-7 flex-column d-flex">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
         <select v-model="selectedCustomer" class="form-control" @change="emitCustomerSelected">
