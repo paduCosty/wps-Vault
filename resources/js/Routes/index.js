@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Import components
-import InvoiceList from "../Components/Invoices/InvoiceList.vue";
 import MainLayout from "../Layouts/Navbar/MainLayout.vue";
 import CustomerList from "../Components/Customers/CustomerList.vue";
 import CustomerForm from "../Components/Customers/CustomerForm.vue";
@@ -13,7 +12,7 @@ import CustomerShowForm from "../Components/Customers/CustomerShowForm.vue";
 // Import invoices
 import InvoiceDetails from "../Components/Invoices/InvoiceDetails.vue";
 import InvoiceForm from "../Components/Invoices/InvoiceForm.vue";
-import InvoiceItem from "../Components/Invoices/InvoiceItem.vue";
+import InvoiceList from "../Components/Invoices/InvoiceList.vue";
 import InvoiceShow from "../Components/Invoices/InvoiceShow.vue";
 // End invoices
 
@@ -23,8 +22,8 @@ const router = createRouter({
 
 
         /*Modifica aici rutele pentru facturi vafi tot asa un crud*/
-        { path: '/', component: InvoiceList },
-        { path: '/bills/', component: InvoiceItem },
+
+        { path: '/bills/', component: InvoiceList },
         { path: '/bills/create', component: InvoiceForm },
         { path: '/invoices/edit/:id', component: InvoiceDetails },
         { path: '/invoices/put/:id', component: InvoiceDetails },

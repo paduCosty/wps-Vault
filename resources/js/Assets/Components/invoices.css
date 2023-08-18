@@ -50,6 +50,20 @@
 /* End the  Invoices */
 
 
+ /*Her is from InvoiceForm  */
+ .custom-col {
+    /* This is the de select from Customer */
 
+    width: 84%;
+    /* Ajustați lățimea după preferințe */
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: -33%;
+    margin-top: -8%;
+}
 
-/* Show Invoices */
+.AddNew {
+    margin-right: 50%;
+    margin-top: 0px;
+}

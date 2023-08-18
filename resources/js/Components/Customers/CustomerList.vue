@@ -23,10 +23,14 @@
                         <td>{{ customer.vat_number }}</td>
                         <td>{{ customer.type }}</td>
                         <td class="row gap-3">
-                            <router-link :to="`/customers/show/${customer.id}`" class=" btn btn-warning">Show</router-link>
-                            <router-link :to="`/customers/edit/${customer.id}`" class="btn btn-info">Edit</router-link>
-                            <button @click="confirmDelete(customer.id)" type="button"
-                                class="btn btn-success">Delete</button>
+                            <div class="btn-group">
+                                <router-link :to="`/customers/show/${customer.id}`"
+                                    class="btn btn-warning narrow-button">Show</router-link>
+                                <router-link :to="`/customers/edit/${customer.id}`"
+                                    class="btn btn-info narrow-button">Edit</router-link>
+                                <button @click="confirmDelete(customer.id)" type="button"
+                                    class="btn btn-success narrow-button">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -37,15 +41,15 @@
   
 <script>
 import axios from 'axios';
-    export default {
-        data() {
-            return {
-                customers: { data: [] }, // Initialize with an empty array
-            };
-        },
-        methods: {
-            async fetchCustomers() {
-                try {
+export default {
+    data() {
+        return {
+            customers: { data: [] }, // Initialize with an empty array
+        };
+    },
+    methods: {
+        async fetchCustomers() {
+            try {
                 const response = await axios.get("/api/customers");
                 this.customers = response.data; // Assign the data from the response to customers
             } catch (error) {

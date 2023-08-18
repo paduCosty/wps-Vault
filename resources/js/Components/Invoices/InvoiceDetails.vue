@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <input value="Save Changes" @click.prevent="saveChanges" class="rainbow-button btn btn-warning"
+                <input value="Save Changes" @click.prevent="saveChanges" class=" btn btn-warning"
                     alt="Button">
             </form>
         </div>

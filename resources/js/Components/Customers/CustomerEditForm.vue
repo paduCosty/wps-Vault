@@ -50,7 +50,7 @@
 <script>
 import axios from "axios";
 
-    export default {
+export default {
     data() {
         return {
             customer: {
@@ -77,7 +77,7 @@ import axios from "axios";
         async saveChanges() {
             try {
                 const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
-                console.log("Changes saved:", response.data);
+
                 this.$router.push("/customers"); //Push to back route
             }
             catch (error) {
@@ -94,6 +94,5 @@ import axios from "axios";
 
 
 <style scoped>
-/* Inport style  */
-    @import '@/Assets/Components/customers.css';
+@import '@/Assets/Components/customers.css';
 </style>
