@@ -76,7 +76,7 @@ import CustomersSelectorComponent from '../Commons/CustomersSelectorComponent.vu
 import InvoiceItems from './InvoiceItems.vue';
 
 export default {
-    components: {
+  components: {
         CustomersSelectorComponent,
         InvoiceItems,
     },

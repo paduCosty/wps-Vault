@@ -16,27 +16,30 @@ class InvoiceController extends Controller
         $invoices = Invoice::paginate(15);
         return response()->json($invoices);
     }
-    public function invoiceItem()
-    {
-        return $this->hasOne(InvoiceItem::class);
-    }
 
+
+    public function invoiceItems()
+    {
+        return $this->hasMany(InvoiceItem::class);
+    }
 
 
     public function show(Request $request, $id)
     {
-        $invoice = Invoice::find($id)->with('invoiceItem');
-
+        $invoice = Invoice::find($id); // ->with('invoiceItem')
+        
         return response()->json($invoice);
     }
 
 
-
     public function edit($id)
     {
-        $invoices = Invoice::find($id);
-        return response()->json($invoices);
+        $invoice = Invoice::with('invoiceItems')->find($id);
+        dd($invoice);
+
+        return response()->json($invoice, 200);
     }
+
 
 
     public function store(Request $request)
@@ -92,7 +95,6 @@ class InvoiceController extends Controller
 
         return response()->json(['status' => false , 'message', 'You must be authenticated']);
     }
-
 
 
     public function update(Request $request, Invoice $invoice)
