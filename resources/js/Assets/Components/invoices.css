@@ -24,19 +24,16 @@
 
 .custom-btn-warning {
     background-color: #f39c12;
-    /* Orange */
     color: #fff;
 }
 
 .custom-btn-info {
     background-color: #3498db;
-    /* Blue */
     color: #fff;
 }
 
 .custom-btn-success {
     background-color: #2ecc71;
-    /* Green */
     color: #fff;
 }
 /* finis from InvoiceItem */
@@ -51,11 +48,9 @@
 
 
  /*Her is from InvoiceForm  */
- .custom-col {
-    /* This is the de select from Customer */
 
+ .custom-col {/* This is the de select from Customer */
     width: 84%;
-    /* Ajustați lățimea după preferințe */
     margin: auto;
     display: flex;
     justify-content: flex-end;
@@ -63,7 +58,7 @@
     margin-top: -8%;
 }
 
-.AddNew {
-    margin-right: 50%;
-    margin-top: 0px;
-}
+.form-group.col-sm-6 {/*  */
+    margin-bottom: -100px; 
+  }
+

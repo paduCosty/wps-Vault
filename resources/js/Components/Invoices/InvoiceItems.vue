@@ -1,24 +1,25 @@
 <template>
     <div id=app>
-        <div class="form-group custom-background" v-for="(input,k) in inputs" :key="k">
-            <div class="col-md-4">
+        <div class="row justify-content-between text-left mb-3" v-for="(input, k) in inputs" :key="k">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="amount">Amount</label>
                     <input type="text" class="form-control" v-model="input.amount">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="details">Details</label>
                     <input type="text" class="form-control" v-model="input.description">
                 </div>
             </div>
         </div>
-        <div class="container mt-5">
-        <span>
-            <i class="fas fa-minus-circle btn btn-danger mr-2" @click="remove()">Remove</i>
-            <i class="fas fa-plus-circle btn btn-success" @click="add()">Add fields</i>
-        </span>
+
+        <div class="button">
+            <span>
+                <i class="fas fa-minus-circle btn btn-warning mr-2" @click="remove()">Remove</i>
+                <i class="fas fa-plus-circle btn btn-success" @click="add()">Add fields</i>
+            </span>
         </div>
     </div>
 </template>
@@ -56,5 +57,12 @@ export default {
             return itemsData;
         },
     },
-};
+};  
 </script>
+
+<style>
+.button {
+    margin-right: 400px;
+    margin-top: -10px;
+}
+</style>

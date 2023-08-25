@@ -14,9 +14,12 @@
 import axios from 'axios';
 
 export default {
+    props: {
+        selectedCustomerId: String, // Așteptăm o valoare de tip Number
+    },
     data() {
         return {
-            selectedCustomer: '',
+            selectedCustomer: this.selectedCustomerId, // Setăm valoarea preselectată aici
             customers: [],
         };
     },
@@ -24,6 +27,7 @@ export default {
         async fetchCustomers() {
             try {
                 const response = await axios.get("/api/customers");
+
                 if (response.status === 200) {
                     this.customers = response.data;
                 } else {
@@ -34,12 +38,16 @@ export default {
             }
         },
 
-        emitCustomerSelected() {
-            this.$emit('customer-selected', this.selectedCustomer);
+        async emitCustomerSelected() {
+            const selectedCustomer = this.customers.data.find(customer => customer.id === this.selectedCustomer);
+            if (selectedCustomer) {
+                this.$emit('customer-selected', selectedCustomer.id, selectedCustomer.contact_name);
+            }
         }
     },
     mounted() {
         this.fetchCustomers();
+        console.log("Selected Customer ID received:", this.selectedCustomerId);
     },
 };
 </script>

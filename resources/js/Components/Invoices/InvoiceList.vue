@@ -25,10 +25,8 @@
                             <td>{{ invoice.payment_term }}</td>
                             <td>{{ invoice.currency }}</td>
                             <td>{{ invoice.type }}</td>
-                            <router-link :to="`/invoices/show/${invoice.id}`"
-                                class="custom-btn custom-btn-warning">Show</router-link>
-                            <router-link :to="`/invoices/edit/${invoice.id}`"
-                                class="custom-btn custom-btn-info">Edit</router-link>
+                            <router-link :to="`/invoices/show/${invoice.id}`" class="custom-btn custom-btn-warning">Show</router-link>
+                            <router-link :to="`/invoices/edit/${invoice.id}`" class="custom-btn custom-btn-info">Edit</router-link>
                             <button @click="confirmDelete(invoice.id)" type="button" class="custom-btn custom-btn-success">
                                 Delete
                             </button>

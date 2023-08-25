@@ -144,5 +144,5 @@ export default {
 </script>
 
 <style scoped>
-    @import '@/Assets/Components/invoices.css';
+@import '@/Assets/Components/invoices.css';
 </style>

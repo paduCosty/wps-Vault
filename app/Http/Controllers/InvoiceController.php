@@ -35,7 +35,7 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::with('invoiceItems')->find($id);
-        dd($invoice);
+        // dd($invoice);
 
         return response()->json($invoice, 200);
     }
