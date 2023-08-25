@@ -14,8 +14,8 @@
               </div>
 
                 <div class="col-sm-6 flex-column d-flex custom-col">
-                  <CustomersSelectorComponent @customer-selected="handleOptionSelected" class="form-control-label">
-                  </CustomersSelectorComponent>
+                  <CustomersSelect @customer-selected="handleOptionSelected" class="form-control-label">
+                  </CustomersSelect>
                 </div>
             </div>
 
@@ -70,12 +70,12 @@
 
 <script>
 import axios from 'axios';
-import CustomersSelectorComponent from '../Commons/CustomersSelectorComponent.vue';
+import CustomersSelect from '../Commons/CustomersSelect.vue';
 import InvoiceItems from './InvoiceItems.vue';
 
 export default {
   components: {
-    CustomersSelectorComponent,
+    CustomersSelect,
     InvoiceItems,
   },
   data() {

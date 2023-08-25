@@ -12,7 +12,7 @@
                             {{ invoice.customer_name }}
                         </div> -->
 
-                            <CustomersSelectorComponent :selectedCustomerId="invoice.customer_id"
+                            <CustomersSelect :selectedCustomerId="invoice.customer_id"
                                 @customer-selected="handleCustomerSelected" />
 
 
@@ -73,45 +73,26 @@
 
 
 
-<script scoped>
+<script>
 import axios from "axios";
 // import InvoiceItems from './InvoiceItems.vue';
-import CustomersSelectorComponent from "../Commons/CustomersSelectorComponent.vue";
+import CustomersSelect from "../Commons/CustomersSelect.vue";
 
     export default {
         components: {
             // InvoiceItems,
-            CustomersSelectorComponent,
+            CustomersSelect,
         },
         data() {
             return {
-                invoice: {
-                    user_id: '',
-                    customer_id: "",
-                    invoice_number: "",
-                    due_date: "",
-                    payment_term: "",
-                    currency: "",
-                    type: "general",
-                    customers: [],
-
-                    id: null
-                }
+                invoice: []
             };
         },
         methods: {
-            handleCustomerSelected(customerId, customerName) {
-                this.invoice.customer_id = customerId;
-                this.invoice.selectedCustomerName = customerName;
-            },
             async fetchInvoice(id) {
                 try {
                     const response = await axios.get(`/api/invoices/${id}`);
                     this.invoice = response.data;
-
-                    const customersResponse = await axios.get(`/api/invoices/${id}`);
-                    this.invoice.customers = customersResponse.data;
-
 
                 } catch (error) {
                     console.error("Error fetching invoice:", error);
@@ -120,16 +101,7 @@ import CustomersSelectorComponent from "../Commons/CustomersSelectorComponent.vu
             async saveChanges() {
                 try {
                     const invoiceData = {
-                        user_id: this.invoice.user_id,
-                        customer_id: this.invoice.customer_id,
-                        invoice_number: this.invoice.invoice_number,
-                        due_date: this.invoice.due_date,
-                        payment_term: this.invoice.payment_term,
-                        currency: this.invoice.currency,
-                        type: this.invoice.type,
-                        // items: this.$refs.invoiceItems.getItemsData(),
-                        customerId: this.invoice.customerId,
-                        customers: this.invoice.customers,
+
                     };
                     const response = await axios.put(`/api/invoices/${this.invoice.id}`, invoiceData);
                     console.log("Changes saved:", response.data);
@@ -149,8 +121,7 @@ import CustomersSelectorComponent from "../Commons/CustomersSelectorComponent.vu
 
     };
 </script>
-  
+
 <style scoped>
 @import '@/Assets/Components/invoices.css';
 </style>
-  
