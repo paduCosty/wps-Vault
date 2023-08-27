@@ -20,7 +20,7 @@ class InvoiceController extends Controller
     public function show(Request $request, $id)
     {
         $invoice = Invoice::find($id); // ->with('invoiceItem')
-        
+
         return response()->json($invoice);
     }
 

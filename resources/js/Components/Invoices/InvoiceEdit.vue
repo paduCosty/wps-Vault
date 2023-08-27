@@ -6,20 +6,21 @@
                 <div class="row">
                     <div class="col-md-4">
 
-                        <CustomersSelect :selectedCustomerId="invoice.customer_id"
-                            @customer-selected="handleCustomerSelected" />
-
+                        <CustomersSelect
+                            :selected_customer_id="invoice.customer_id"
+                            ref="customers_select"
+                        ></CustomersSelect>
                         <div class="form-group custom-background">
                             <label for="invoice_number">Invoice Number:</label>
                             <input class="form-control" type="number" id="invoice_number"
-                                v-model="invoice.invoice_number" />
+                                   v-model="invoice.invoice_number"/>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group custom-background">
                             <label for="due_date">Due Date:</label>
-                            <input class="form-control" type="date" id="due_date" v-model="invoice.due_date" />
+                            <input class="form-control" type="date" id="due_date" v-model="invoice.due_date"/>
                         </div>
 
                         <div class="form-group custom-background">
@@ -51,24 +52,25 @@
                         <div v-for="(item, index) in invoice.items" :key="index">
                             <h4>{{ item.amount }}</h4>
                             {{ item.description }}
-                            <input v-model="item.amount" />
-                            <input v-model="item.description" />
+                            <input v-model="item.amount"/>
+                            <input v-model="item.description"/>
                         </div>
 
                     </div>
                 </div>
 
-                <input value="Save Changes" @click.prevent="saveChanges" class="rainbow-button btn btn-danger" alt="Button">
+                <input value="Save Changes" @click.prevent="saveChanges" class="rainbow-button btn btn-danger"
+                       alt="Button">
             </form>
         </div>
     </div>
 </template>
 
 
-
 <script>
 import axios from "axios";
 import CustomersSelect from "../Commons/CustomersSelect.vue";
+import invoiceEdit from "./InvoiceEdit.vue";
 
 export default {
     components: {
@@ -76,6 +78,7 @@ export default {
     },
     data() {
         return {
+            selectedCustomer: '',
             invoice: {
                 customer_id: '',
                 invoice_number: '',
@@ -86,13 +89,12 @@ export default {
                 customers: [],
                 items: [],
             },
+            cartof: '',
+
         };
     },
     methods: {
-        handleCustomerSelected(selectedCustomer) {
-            console.log('Selected customer:', selectedCustomer);
-            this.invoice.customer_id = selectedCustomer;
-        },
+
         async fetchInvoice(id) {
             try {
                 const response = await axios.get(`/api/invoices/${id}/edit`);
@@ -117,7 +119,6 @@ export default {
     async created() {
         const invoiceId = this.$route.params.id;
         await this.fetchInvoice(invoiceId);
-        this.selectedCustomer = this.invoice.customer_id;
     }
 };
 </script>

@@ -1,30 +1,35 @@
 <template>
     <div class="col-sm-7 flex-column d-flex">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
-        <select v-model="test" class="form-control" @change="emitCustomerSelected">
+        <select v-model="selected_customer" class="form-control">
             <option value="" disabled>Select a customer</option>
             <option v-for="customer in customers.data" :key="customer.id" :value="customer.id">
                 {{ customer.contact_name }}
             </option>
         </select>
-        {{ test }}
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 
+
 export default {
-    props: [
-        'selectedCustomerId' 
-    ],
+    props: {
+        selected_customer_id: '',
+    },
     data() {
         return {
-            selectedCustomer: '',
-            test: this.selectedCustomerId,
+            selected_customer: '',
             customers: [],
         };
     },
+    watch: {
+        selected_customer_id(id) {
+            this.selected_customer = id;
+        },
+    },
+
     methods: {
         async fetchCustomers() {
             try {
@@ -42,18 +47,10 @@ export default {
             }
         },
 
-        async emitCustomerSelected() {
-            const selectedCustomer = this.customers.data.find(customer => customer.id === this.selectedCustomerId);
-            if (selectedCustomer) {
-                this.$emit('customer-selected', selectedCustomer.id, selectedCustomer.contact_name);
-            }
-        }
     },
     mounted() {
         this.fetchCustomers();
-        // console.log("Selected Customer ID received:", this.selectedCustomerId);
-        this.test = this.selectedCustomerId;
-
+        console.log(this.selected_customer_id)
     },
 };
 </script>
