@@ -6,15 +6,8 @@
                 <div class="row">
                     <div class="col-md-4">
 
-                        <!-- <div class="form-group custom-background">
-                            <label for="invoice.customer_id">Customer Name:</label>
-                            <input class="form-control" id="invoice.customer_id" v-model="invoice.customer_name" />
-                            {{ invoice.customer_name }}
-                        </div> -->
-
-                            <CustomersSelect :selectedCustomerId="invoice.customer_id"
-                                @customer-selected="handleCustomerSelected" />
-
+                        <CustomersSelect :selectedCustomerId="invoice.customer_id"
+                            @customer-selected="handleCustomerSelected" />
 
                         <div class="form-group custom-background">
                             <label for="invoice_number">Invoice Number:</label>
@@ -33,8 +26,8 @@
                             <label for="payment_term">Payment Term:</label>
                             <select class="form-control" id="payment_term" v-model="invoice.payment_term">
                                 <option value="7">7 days</option>
+                                <option value="12">12 days</option>
                                 <option value="14">14 days</option>
-                                <option value="30">30 days</option>
                             </select>
                         </div>
 
@@ -54,13 +47,13 @@
                             </select>
                         </div>
 
-                        <!-- <div v-for="(invoice.items, index) in invoice.items" :key="index">
-                            <div>
-                                <h4>{{ amount }}</h4>
-                                {{ description }}
-                            </div>
-                        </div> -->
 
+                        <div v-for="(item, index) in invoice.items" :key="index">
+                            <h4>{{ item.amount }}</h4>
+                            {{ item.description }}
+                            <input v-model="item.amount" />
+                            <input v-model="item.description" />
+                        </div>
 
                     </div>
                 </div>
@@ -75,51 +68,58 @@
 
 <script>
 import axios from "axios";
-// import InvoiceItems from './InvoiceItems.vue';
 import CustomersSelect from "../Commons/CustomersSelect.vue";
 
-    export default {
-        components: {
-            // InvoiceItems,
-            CustomersSelect,
-        },
-        data() {
-            return {
-                invoice: []
-            };
-        },
-        methods: {
-            async fetchInvoice(id) {
-                try {
-                    const response = await axios.get(`/api/invoices/${id}`);
-                    this.invoice = response.data;
-
-                } catch (error) {
-                    console.error("Error fetching invoice:", error);
-                }
+export default {
+    components: {
+        CustomersSelect,
+    },
+    data() {
+        return {
+            invoice: {
+                customer_id: '',
+                invoice_number: '',
+                due_date: '',
+                payment_term: '',
+                currency: '',
+                type: 'general',
+                customers: [],
+                items: [],
             },
-            async saveChanges() {
-                try {
-                    const invoiceData = {
+        };
+    },
+    methods: {
+        handleCustomerSelected(selectedCustomer) {
+            console.log('Selected customer:', selectedCustomer);
+            this.invoice.customer_id = selectedCustomer;
+        },
+        async fetchInvoice(id) {
+            try {
+                const response = await axios.get(`/api/invoices/${id}/edit`);
+                this.invoice = response.data;
 
-                    };
-                    const response = await axios.put(`/api/invoices/${this.invoice.id}`, invoiceData);
-                    console.log("Changes saved:", response.data);
-
-                    this.$router.push("/bills"); // Redirect to back route
-
-                } catch (error) {
-                    console.error("Error saving changes:", error);
-                }
+            } catch (error) {
+                console.error("Error fetching invoice:", error);
             }
         },
-        async created() {
-            const invoiceId = this.$route.params.id;
-            await this.fetchInvoice(invoiceId);
-            this.selectedCustomer = this.invoice.customer_id;
-        }
+        async saveChanges() {
+            try {
+                const response = await axios.put(`/api/invoices/${this.invoice.id}`, this.invoice);
+                console.log("Changes saved:", response.data);
 
-    };
+                this.$router.push("/bills"); // Redirect to back route
+
+            } catch (error) {
+                console.error("Error saving changes:", error);
+            }
+        }
+    },
+    async created() {
+        const invoiceId = this.$route.params.id;
+        await this.fetchInvoice(invoiceId);
+        this.selectedCustomer = this.invoice.customer_id;
+    }
+};
 </script>
 
 <style scoped>

@@ -1,12 +1,13 @@
 <template>
     <div class="col-sm-7 flex-column d-flex">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
-        <select v-model="selectedCustomer" class="form-control" @change="emitCustomerSelected">
+        <select v-model="test" class="form-control" @change="emitCustomerSelected">
             <option value="" disabled>Select a customer</option>
             <option v-for="customer in customers.data" :key="customer.id" :value="customer.id">
                 {{ customer.contact_name }}
             </option>
         </select>
+        {{ test }}
     </div>
 </template>
 
@@ -14,12 +15,13 @@
 import axios from 'axios';
 
 export default {
-    props: {
-        selectedCustomerId: String, // Așteptăm o valoare de tip Number
-    },
+    props: [
+        'selectedCustomerId' 
+    ],
     data() {
         return {
-            selectedCustomer: this.selectedCustomerId, // Setăm valoarea preselectată aici
+            selectedCustomer: '',
+            test: this.selectedCustomerId,
             customers: [],
         };
     },
@@ -27,6 +29,8 @@ export default {
         async fetchCustomers() {
             try {
                 const response = await axios.get("/api/customers");
+                this.customers = response.data;
+
 
                 if (response.status === 200) {
                     this.customers = response.data;
@@ -39,7 +43,7 @@ export default {
         },
 
         async emitCustomerSelected() {
-            const selectedCustomer = this.customers.data.find(customer => customer.id === this.selectedCustomer);
+            const selectedCustomer = this.customers.data.find(customer => customer.id === this.selectedCustomerId);
             if (selectedCustomer) {
                 this.$emit('customer-selected', selectedCustomer.id, selectedCustomer.contact_name);
             }
@@ -47,7 +51,9 @@ export default {
     },
     mounted() {
         this.fetchCustomers();
-        console.log("Selected Customer ID received:", this.selectedCustomerId);
+        // console.log("Selected Customer ID received:", this.selectedCustomerId);
+        this.test = this.selectedCustomerId;
+
     },
 };
 </script>

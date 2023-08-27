@@ -17,13 +17,6 @@ class InvoiceController extends Controller
         return response()->json($invoices);
     }
 
-
-    public function invoiceItems()
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
-
-
     public function show(Request $request, $id)
     {
         $invoice = Invoice::find($id); // ->with('invoiceItem')
@@ -34,8 +27,8 @@ class InvoiceController extends Controller
 
     public function edit($id)
     {
-        $invoice = Invoice::with('invoiceItems')->find($id);
-        // dd($invoice);
+        $invoice = Invoice::with('invoiceItem')->find($id);
+        // dd($invoice->toArray());
 
         return response()->json($invoice, 200);
     }
@@ -51,7 +44,7 @@ class InvoiceController extends Controller
                 'customer_id' => 'required',
                 'invoice_number' => 'required',
                 'due_date' => 'required|date',
-                'payment_term' => ['required', Rule::in(['7', '14', '30'])],
+                'payment_term' => ['required', Rule::in(['7', '12', '14'])],
                 'currency' => ['required', Rule::in(['ron', 'eur', 'usd'])],
                 'type' => ['required', Rule::in(['general'])],
                 'items' => [
@@ -105,7 +98,7 @@ class InvoiceController extends Controller
             'customer_id' => 'required',
             'invoice_number' => 'required',
             'due_date' => 'required|date',
-            'payment_term' => ['required', Rule::in(['7', '14', '30'])],
+            'payment_term' => ['required', Rule::in(['7', '12', '14'])],
             'currency' => ['required', Rule::in(['ron', 'eur', 'usd'])],
             'type' => ['required', Rule::in(['general'])],
             'items' => 'required|array',

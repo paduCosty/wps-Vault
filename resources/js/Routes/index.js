@@ -10,7 +10,7 @@ import CustomerShowForm from "../Components/Customers/CustomerShowForm.vue";
 // End components
 
 // Import invoices
-import InvoiceDetails from "../Components/Invoices/InvoiceDetails.vue";
+import InvoiceEdit from "../Components/Invoices/InvoiceEdit.vue";
 import InvoiceForm from "../Components/Invoices/InvoiceForm.vue";
 import InvoiceList from "../Components/Invoices/InvoiceList.vue";
 import InvoiceShow from "../Components/Invoices/InvoiceShow.vue";
@@ -25,8 +25,8 @@ const router = createRouter({
 
         { path: '/bills/', component: InvoiceList },
         { path: '/bills/create', component: InvoiceForm },
-        { path: '/invoices/edit/:id', component: InvoiceDetails },
-        { path: '/invoices/put/:id', component: InvoiceDetails },
+        { path: '/invoices/edit/:id', component: InvoiceEdit },
+        { path: '/invoices/put/:id', component: InvoiceEdit },
         { path: '/invoices/show/:id', component: InvoiceShow },
 
 

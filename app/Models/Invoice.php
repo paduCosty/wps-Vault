@@ -19,23 +19,22 @@ class Invoice extends Model
         'status',
     ];
 
-    // Relația între Invoice și User
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relația între Invoice și Customer
+  
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
 
-    // Relația între Invoice și InvoiceItem
+    
     public function invoiceItem()
     {
         return $this->belongsTo(InvoiceItem::class);
     }
 
-    // Alte metode și relații
 }

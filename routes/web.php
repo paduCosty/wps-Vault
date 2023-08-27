@@ -31,6 +31,7 @@ Route::prefix('api')->group(function () {
     /*Invoices routes START*/
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::get('invoices/{invoice}', [InvoiceController::class, 'show']);
+    Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit']);
     Route::post('invoices', [InvoiceController::class, 'store']);
     Route::put('invoices/{invoice}', [InvoiceController::class, 'update']);
     Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy']);
