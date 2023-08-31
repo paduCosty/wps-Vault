@@ -16,6 +16,7 @@ class CustomerController extends Controller
         return response()->json($customers);
     }
 
+
     public function show(Request $request, $id)
     {
         $customer = Customer::find($id);
@@ -29,6 +30,7 @@ class CustomerController extends Controller
         return response()->json($customer);
     }
 
+    
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;

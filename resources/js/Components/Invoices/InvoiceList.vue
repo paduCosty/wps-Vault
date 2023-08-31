@@ -41,40 +41,39 @@
 
 <script>
 import axios from 'axios';
-
-export default {
-    data() {
-        return {
-            invoices: [],
-        };
-    },
-    methods: {
-        async fetchInvoices() {
-            try {
-                const response = await axios.get('/api/invoices');
-                this.invoices = response.data;
-            } catch (error) {
-                console.error('Error fetching invoices:', error);
-            }
+    export default {
+        data() {
+            return {
+                invoices: [],
+            };
         },
-        async confirmDelete(invoiceId) {
-            const shouldDelete = confirm('Are you sure you want to delete this invoice?');
-            if (shouldDelete) {
+        methods: {
+            async fetchInvoices() {
                 try {
-                    const response = await axios.delete(`/api/invoices/${invoiceId}`);
-                    console.log('Invoice deleted:', response.data);
-                    // Refresh the invoices list
-                    this.fetchInvoices();
+                    const response = await axios.get('/api/invoices');
+                    this.invoices = response.data;
                 } catch (error) {
-                    console.error('Error deleting invoice:', error);
+                    console.error('Error fetching invoices:', error);
                 }
-            }
+            },
+            async confirmDelete(invoiceId) {
+                const shouldDelete = confirm('Are you sure you want to delete this invoice?');
+                if (shouldDelete) {
+                    try {
+                        const response = await axios.delete(`/api/invoices/${invoiceId}`);
+                        console.log('Invoice deleted:', response.data);
+                        // Refresh the invoices list
+                        this.fetchInvoices();
+                    } catch (error) {
+                        console.error('Error deleting invoice:', error);
+                    }
+                }
+            },
         },
-    },
-    created() {
-        this.fetchInvoices();
-    },
-};
+        created() {
+            this.fetchInvoices();
+        },
+    };
 </script>
 
   

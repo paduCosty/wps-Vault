@@ -13,44 +13,43 @@
 <script>
 import axios from 'axios';
 
-
-export default {
-    props: {
-        selected_customer_id: '',
-    },
-    data() {
-        return {
-            selected_customer: '',
-            customers: [],
-        };
-    },
-    watch: {
-        selected_customer_id(id) {
-            this.selected_customer = id;
+    export default {
+        props: {
+            selected_customer_id: '',
         },
-    },
+        data() {
+            return {
+                selected_customer: '',
+                customers: [],
+            };
+        },
+        watch: {
+            selected_customer_id(id) {
+                this.selected_customer = id;
+            },
+        },
 
-    methods: {
-        async fetchCustomers() {
-            try {
-                const response = await axios.get("/api/customers");
-                this.customers = response.data;
-
-
-                if (response.status === 200) {
+        methods: {
+            async fetchCustomers() {
+                try {
+                    const response = await axios.get("/api/customers");
                     this.customers = response.data;
-                } else {
-                    console.error("Error fetching customers:");
-                }
-            } catch (error) {
-                console.error("Error fetching customers:", error);
-            }
-        },
 
-    },
-    mounted() {
-        this.fetchCustomers();
-        console.log(this.selected_customer_id)
-    },
-};
+
+                    if (response.status === 200) {
+                        this.customers = response.data;
+                    } else {
+                        console.error("Error fetching customers:");
+                    }
+                } catch (error) {
+                    console.error("Error fetching customers:", error);
+                }
+            },
+
+        },
+        mounted() {
+            this.fetchCustomers();
+            // console.log(this.selected_customer_id)
+        },
+    };
 </script>

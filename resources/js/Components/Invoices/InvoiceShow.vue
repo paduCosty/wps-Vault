@@ -99,48 +99,47 @@
 
 <script>
 import axios from 'axios';
+    export default {
+        data() {
+            return {
+                invoice: {
+                    user_id: "",
+                    customer_id: "",
+                    invoice_number: "",
+                    due_date: "",
+                    amount: '',
+                    description: '',
+                    payment_term: "",
+                    currency: "",
+                    type: "general",
+                    itens: [],
+                    id: null,
+                },
+                invoice_items: [],
+            };
+        },
+        methods: {
+            async fetchInvoices(id) {
+                try {
+                    const response = await axios.get(`/api/invoices/${id}`);
+                    this.invoice = response.data;
+                    this.invoice_items = this.invoice.invoice_items;
 
-export default {
-    data() {
-        return {
-            invoice: {
-                user_id: "",
-                customer_id: "",
-                invoice_number: "",
-                due_date: "",
-                amount: '',
-                description: '',
-                payment_term: "",
-                currency: "",
-                type: "general",
-                itens: [],
-                id: null,
+                } catch (error) {
+                    console.error("Error fetching invoice:", error);
+                }
             },
-            invoice_items: [],
-        };
-    },
-    methods: {
-        async fetchInvoices(id) {
-            try {
-                const response = await axios.get(`/api/invoices/${id}`);
-                this.invoice = response.data;
-                this.invoice_items = this.invoice.invoice_items;
-
-            } catch (error) {
-                console.error("Error fetching invoice:", error);
-            }
+            // Method for redirection to "Customers";
+            ToInvoices() {
+                this.$router.push("/bills");
+            },
         },
-        // Method for redirection to "Customers";
-        ToInvoices() {
-            this.$router.push("/bills");
-        },
-    },
 
-    created() {
-        const invoicesId = this.$route.params.id;
-        this.fetchInvoices(invoicesId);
-    },
-};
+        created() {
+            const invoicesId = this.$route.params.id;
+            this.fetchInvoices(invoicesId);
+        },
+    };
 </script>
 
 <style scoped>

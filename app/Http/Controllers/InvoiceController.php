@@ -17,6 +17,7 @@ class InvoiceController extends Controller
         return response()->json($invoices);
     }
 
+
     public function show(Request $request, $id)
     {
         $invoice = Invoice::find($id); // ->with('invoiceItem')
@@ -29,10 +30,9 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::with('invoiceItem')->find($id);
         // dd($invoice->toArray());
-
+        // dd($invoice);
         return response()->json($invoice, 200);
     }
-
 
 
     public function store(Request $request)
@@ -141,6 +141,7 @@ class InvoiceController extends Controller
         return response()->json($invoice, 200);
     }
 
+    
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();

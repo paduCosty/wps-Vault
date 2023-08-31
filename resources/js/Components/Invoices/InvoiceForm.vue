@@ -10,14 +10,12 @@
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Invoice Number<span
-                                    class="text-danger"></span></label>
+                                        class="text-danger"></span></label>
                                 <input v-model="invoice_number" placeholder="Invoice Number" class="form-control">
                             </div>
 
                             <div class="col-sm-6 flex-column d-flex custom-col">
-                                <CustomersSelect
-                                    class="form-control-label"
-                                    ref="customers_select">
+                                <CustomersSelect class="form-control-label" ref="customers_select">
                                 </CustomersSelect>
                             </div>
                         </div>
@@ -29,8 +27,7 @@
                             </div>
 
                             <div class="col-sm-6 flex-column d-flex">
-                                <label class="form-control-label px-3">Payment Term<span
-                                    class="text-danger"></span></label>
+                                <label class="form-control-label px-3">Payment Term<span class="text-danger"></span></label>
                                 <select v-model="payment_term" class="form-select">
                                     <option v-for="option in payment_term_options" :key="option" :value="option">
                                         {{ option }}
@@ -85,7 +82,6 @@ export default {
     data() {
         return {
             selected_customer: '',
-            showTable: true,
             customer_id: '',
             invoice_number: '',
             due_date: '',
