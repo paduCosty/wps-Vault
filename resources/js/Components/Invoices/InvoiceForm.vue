@@ -14,7 +14,7 @@
                                 <input v-model="invoice_number" placeholder="Invoice Number" class="form-control">
                             </div>
 
-                            <div class="col-sm-6 flex-column d-flex custom-col">
+                            <div class="col-sm-6 flex-column d-flex">
                                 <CustomersSelect class="form-control-label" ref="customers_select">
                                 </CustomersSelect>
                             </div>
@@ -57,7 +57,7 @@
                         <InvoiceItems ref="invoiceItems"></InvoiceItems>
 
                         <div class="row justify-content-end mb-3">
-                            <div class="form-group col-sm-6" style="margin-top: -30px;">
+                            <div class="form-group col-sm-5" style="margin-top: -30px;">
                                 <button type="submit" class="btn-block btn-danger mt-0">Add New Invoices</button>
                             </div>
                         </div>
@@ -108,8 +108,6 @@ export default {
                     headers['X-CSRF-TOKEN'] = csrfToken;
                 }
 
-                console.log("Selected customer in main component:", this.selected_customer);
-
                 const data = {
                     customer_id: this.$refs.customers_select.selected_customer,
                     invoice_number: this.invoice_number,
@@ -123,7 +121,7 @@ export default {
                 const response = await axios.post("/api/invoices", data, {
                     headers: headers,
                 });
-
+                console.log(this.data);
                 if (response.status === 200) {
                     console.log("Invoice created successfully!");
                     this.$router.push("/bills");

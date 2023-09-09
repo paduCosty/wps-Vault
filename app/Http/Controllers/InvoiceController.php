@@ -18,23 +18,23 @@ class InvoiceController extends Controller
     }
 
 
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $invoice = Invoice::find($id); // ->with('invoiceItem')
-
+        $invoice = Invoice::with('invoiceItems', 'customer', 'user')->find($id);
+        // dd($invoice->all());
         return response()->json($invoice);
     }
 
-
+    
     public function edit($id)
     {
-        $invoice = Invoice::with('invoiceItem')->find($id);
+        $invoice = Invoice::with('invoiceItems')->find($id);
         // dd($invoice->toArray());
-        // dd($invoice);
+        // dd($invoice)
         return response()->json($invoice, 200);
     }
-
-
+    
+    
     public function store(Request $request)
     {
         if(Auth::check()) {
@@ -61,8 +61,9 @@ class InvoiceController extends Controller
                 ],
                 'items.*.amount' => 'required|numeric',
                 'items.*.description' => 'required|string',
+                
             ]);
-
+           
             // Create the main invoice
             $invoice = Invoice::create([
                 'user_id' => $user_id,
@@ -82,9 +83,12 @@ class InvoiceController extends Controller
                         'description' => $item['description'] ?? '0',
                     ]);
                 }
+                dd($validatedData);
             }
+            
             return response()->json($invoice, 200);
         }
+
 
         return response()->json(['status' => false , 'message', 'You must be authenticated']);
     }
@@ -93,7 +97,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $user_id = Auth::user()->id;
-
+    
         $validatedData = $request->validate([
             'customer_id' => 'required',
             'invoice_number' => 'required',
@@ -105,12 +109,12 @@ class InvoiceController extends Controller
             'items.*.amount' => 'sometimes|nullable',
             'items.*.description' => 'sometimes|nullable',
         ]);
-
+    
         if ($invoice->user_id !== $user_id) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        $invoice->update([
+    
+        $invoice->fill([
             'user_id' => $user_id,
             'customer_id' => $validatedData['customer_id'],
             'invoice_number' => $validatedData['invoice_number'],
@@ -119,27 +123,23 @@ class InvoiceController extends Controller
             'currency' => $validatedData['currency'],
             'type' => $validatedData['type'],
         ]);
-
+    
+        $invoice->save();
+    
+        
         if ($request->has('items')) {
+            $invoice->invoiceItems()->delete(); 
+    
             foreach ($request->input('items') as $item) {
                 $invoice->invoiceItems()->create([
-                    'invoice_id' => $invoice->id,
-                    'amount' => isset($item['amount']) ? $item['amount'] : null,
-                    'description' => isset($item['description']) ? $item['description'] : null,
+                    'amount' => $item['amount'] ?? null,
+                    'description' => $item['description'] ?? null,
                 ]);
             }
-        }
-
-        if ($request->has('itens')) {
-            foreach ($request->input('itens') as $iten) {
-                $invoice->invoiceItem()->create([
-                    'invoice_id' => $invoice->id,
-                    'description' => $iten['description'],
-                ]);
-            }
-        }
+        }   
         return response()->json($invoice, 200);
     }
+    
 
     
     public function destroy(Invoice $invoice)

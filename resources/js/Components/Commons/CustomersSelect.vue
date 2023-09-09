@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-7 flex-column d-flex">
+    <div class="col-md-13">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
         <select v-model="selected_customer" class="form-control">
             <option value="" disabled>Select a customer</option>
@@ -13,43 +13,46 @@
 <script>
 import axios from 'axios';
 
-    export default {
-        props: {
-            selected_customer_id: '',
+export default {
+    props: {
+        selected_customer_id: '',
+    },
+    data() {
+        return {
+            selected_customer: '',
+            customers: [],
+        };
+    },
+    watch: {
+        selected_customer_id(id) {
+            this.selected_customer = id;
         },
-        data() {
-            return {
-                selected_customer: '',
-                customers: [],
-            };
-        },
-        watch: {
-            selected_customer_id(id) {
-                this.selected_customer = id;
-            },
-        },
+    },
 
-        methods: {
-            async fetchCustomers() {
-                try {
-                    const response = await axios.get("/api/customers");
+    methods: {
+        async fetchCustomers() {
+            try {
+                const response = await axios.get("/api/customers");
+                this.customers = response.data;
+
+
+                if (response.status === 200) {
                     this.customers = response.data;
-
-
-                    if (response.status === 200) {
-                        this.customers = response.data;
-                    } else {
-                        console.error("Error fetching customers:");
-                    }
-                } catch (error) {
-                    console.error("Error fetching customers:", error);
+                } else {
+                    console.error("Error fetching customers:");
                 }
-            },
-
+            } catch (error) {
+                console.error("Error fetching customers:", error);
+            }
         },
-        mounted() {
-            this.fetchCustomers();
-            // console.log(this.selected_customer_id)
+        async fetchCustomerName(id) {
+            const customer = this.customers.data.find((c) => c.id === id);
+            this.$emit("update:selected-customer-name", customer ? customer.contact_name : "");
         },
-    };
+    },
+    mounted() {
+        this.fetchCustomers();
+        // console.log(this.selected_customer_id)
+    },
+};
 </script>

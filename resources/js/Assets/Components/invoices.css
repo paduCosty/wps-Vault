@@ -1,8 +1,4 @@
-/* her is from InvoiceItem */
-.right {
-    margin-right: -170px;
-}
-
+/* Her is for Buttoms to Index Invoices */
 .custom-btn {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -15,50 +11,56 @@
     outline: none;
     text-decoration: none;
     margin-right: 0.5rem;
-}
-
-.custom-btn:hover {
+  }
+  
+  .custom-btn:hover {
     background-color: #f0f0f0;
     color: #333;
-}
-
-.custom-btn-warning {
+  }
+  
+  .custom-btn-warning {
     background-color: #f39c12;
     color: #fff;
-}
-
-.custom-btn-info {
+  }
+  
+  .custom-btn-info {
     background-color: #3498db;
     color: #fff;
-}
-
-.custom-btn-success {
+  }
+  
+  .custom-btn-success {
     background-color: #2ecc71;
     color: #fff;
-}
-/* finis from InvoiceItem */
-
-
-
-/* Show Invoices */
-.form {
-    margin-left: 455px;
-}
-/* End the  Invoices */
-
-
- /*Her is from InvoiceForm  */
-
- .custom-col {/* This is the de select from Customer */
-    width: 84%;
-    margin: auto;
-    display: flex;
-    justify-content: flex-end;
-    margin-right: -33%;
-    margin-top: -8%;
-}
-
-.form-group.col-sm-6 {/*  */
-    margin-bottom: -100px; 
   }
+  /* Finis for style Buttoms to Index Invoices */
+  
 
+
+  
+
+  
+  
+
+
+
+  /* Style for InvoiceItems(Component)*/
+  .btn-outline-secondary {
+    color: #0987f6;
+    border-color: #0986f4;
+    color: #eff709;
+    background-color: transparent;
+  }
+  
+  .button1{
+    margin-left: -300px;
+  }
+  /* End the InvoiceItems(Component) */
+  
+  
+  /*Style for InvoiceEdit  Save Changes  */
+  .my-style-button {
+    margin-right: -80px;
+    margin-top: 10px;
+  
+  }
+  /* End or style InvoiceEdit  Save Changes  */
