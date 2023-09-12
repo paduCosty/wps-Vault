@@ -8,14 +8,13 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
     <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    @vite(['resources/js/Routes/index.js'])
-{{--    trebuie sa vad cum configurez vite sa ia si rutele din routes--}}
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>
     <div id="app"></div>
-    
-    
+
+
 </body>
 
 </html>
