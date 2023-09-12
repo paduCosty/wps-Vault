@@ -1,31 +1,41 @@
 <template>
-    <div class="col-sm-7 flex-column d-flex">
+    <div class="col-md-13">
         <label class="form-control-label px-3">Customer<span class="text-danger"></span></label>
-        <select v-name="customer_id" v-model="selectedCustomer" class="form-control" @change="fetchCustomerDetails">
+        <select v-model="selected_customer" class="form-control">
             <option value="" disabled>Select a customer</option>
-            <option v-for="customer in customers.data" :key="customer.id" :value="customer.id" v-name="customer_id">
+            <option v-for="customer in customers.data" :key="customer.id" :value="customer.id">
                 {{ customer.contact_name }}
             </option>
         </select>
     </div>
 </template>
 
-  
 <script>
 import axios from 'axios';
 
 export default {
+    props: {
+        selected_customer_id: '',
+    },
     data() {
         return {
-            selectedCustomer: '',
-            customer_id: '',
+            selected_customer: '',
             customers: [],
         };
     },
+    watch: {
+        selected_customer_id(id) {
+            this.selected_customer = id;
+        },
+    },
+
     methods: {
         async fetchCustomers() {
             try {
                 const response = await axios.get("/api/customers");
+                this.customers = response.data;
+
+
                 if (response.status === 200) {
                     this.customers = response.data;
                 } else {
@@ -35,22 +45,14 @@ export default {
                 console.error("Error fetching customers:", error);
             }
         },
-        async fetchCustomerDetails() {
-            try {
-                const response = await axios.get(`/api/customers/${this.selectedCustomer}`);
-                if (response.status === 200) {
-                    const customer = response.data;
-                    console.log("Selected customer details:", this.customers, 'aici este ');
-                } else {
-                    console.error("Error fetching customer details:");
-                }
-            } catch (error) {
-                console.error("Error fetching customer details:", error);
-            }
-        }
+        async fetchCustomerName(id) {
+            const customer = this.customers.data.find((c) => c.id === id);
+            this.$emit("update:selected-customer-name", customer ? customer.contact_name : "");
+        },
     },
     mounted() {
         this.fetchCustomers();
+        // console.log(this.selected_customer_id)
     },
 };
 </script>

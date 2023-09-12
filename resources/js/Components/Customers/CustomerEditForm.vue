@@ -5,6 +5,7 @@
             <form class="form">
                 <div class=" row">
                     <div class="col-md-4">
+                        
                         <div class="form-group custom-background">
                             <label for=" company_name">Company Name:</label>
                             <input class="form-control" type="text" id="company_name" v-model="customer.company_name" />
@@ -39,8 +40,7 @@
                     </div>
                 </div>
 
-                <button @click.prevent="saveChanges" class="rainbow-button" alt="Button">Save
-                    Changes</button>
+                <button @click.prevent="saveChanges" class="rainbow-button" alt="Button">SaveChanges</button>
             </form>
         </div>
     </div>
@@ -49,52 +49,48 @@
 
 <script>
 import axios from "axios";
-import ExampleComponent from "../ExampleComponent.vue";
-
     export default {
-    data() {
-        return {
-            customer: {
-                id: null,
-                company_name: "",
-                contact_name: "",
-                email: "",
-                vat_number: "",
-                type: "",
+        data() {
+            return {
+                customer: {
+                    id: null,
+                    company_name: "",
+                    contact_name: "",
+                    email: "",
+                    vat_number: "",
+                    type: "",
+                },
+            };
+        },
+        methods: {  // fecth the Customer
+            async fetchCustomer(id) {
+                try {
+                    const response = await axios.get(`/api/customers/${id}`);
+                    this.customer = response.data;
+                }
+                catch (error) {
+                    console.error("Error fetching customer:", error);
+                }
             },
-        };
-    },
-    // fecth the Customer
-    methods: {
-        async fetchCustomer(id) {
-            try {
-                const response = await axios.get(`/api/customers/${id}`);
-                this.customer = response.data;
-            }
-            catch (error) {
-                console.error("Error fetching customer:", error);
-            }
+            async saveChanges() {
+                try {
+                    const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
+
+                    this.$router.push("/customers"); //Push to back route
+                }
+                catch (error) {
+                    console.error("Error saving changes:", error);
+                }
+            },
         },
-        async saveChanges() {
-            try {
-                const response = await axios.put(`/api/customers/${this.customer.id}`, this.customer);
-                console.log("Changes saved:", response.data);
-                this.$router.push("/customers"); //Push to back route
-            }
-            catch (error) {
-                console.error("Error saving changes:", error);
-            }
+        created() {
+            const customerId = this.$route.params.id;
+            this.fetchCustomer(customerId);
         },
-    },
-    created() {
-        const customerId = this.$route.params.id;
-        this.fetchCustomer(customerId);
-    },
-};
+    };
 </script>
 
 
 <style scoped>
-/* Inport style  */
-    @import '@/Assets/Components/customers.css';
+@import '@/Assets/Components/customers.css';
 </style>
