@@ -13,11 +13,10 @@ class InvoiceItem extends Model
         'description',
     ];
 
-    // Relația între InvoiceItem și Invoice
+    
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
     }
 
-    // Alte metode și relații
 }

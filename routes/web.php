@@ -28,15 +28,18 @@ Route::prefix('api')->group(function () {
     Route::delete('customers/{id}', [CustomerController::class, 'destroy']);
     /*customers routes END*/
 
+
     /*Invoices routes START*/
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::get('invoices/{invoice}', [InvoiceController::class, 'show']);
+    Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit']);
     Route::post('invoices', [InvoiceController::class, 'store']);
     Route::put('invoices/{invoice}', [InvoiceController::class, 'update']);
     Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy']);
     /*Invoices routes END*/
 
 });
+
 
 Route::get('/{any}', function () {
     return view('app');

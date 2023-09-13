@@ -1,67 +1,28 @@
-.rainbow-button {
-    width: 550px;
-    height: 40px;
-    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    border: none;
-    margin-top: 10px;
-}
-
-.rainbow-button:hover {
-    animation: slidebg 2s linear infinite;
-}
-
-@keyframes slidebg {
-    to {
-        background-position: 200px;
-    }
-}
-
-.form {
-    margin-left: 345px;
-}
-
-.custom-background {
-    background-color: #f2f2f2;
-   
-    padding: 10px;
-    
-}
-
-
 
 /* Show form  */
 
 .custom-label {
-    color: #555;
-    font-weight: bold;
-  }
-  
-  .custom-value {
-    color: #ef9c76;
-  }
-  
-  .custom-background {
-    background-color: #f2f2f2;
-    padding: 10px;
-  }
-  
-  .form {
-    margin-left: 500px;
-  }
+  color: #555;
+  font-weight: bold;
+}
+
+.custom-value {
+  color: #ef9c76;
+}
+
+.custom-background {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.form {
+  margin-left: 500px;
+}
 
 /* End Show */
 
 /* Edit  Invoices   */
-  .row {
-    display: flex;
-    margin-left: 300px;
+.row {
+  display: flex;
+  margin-left: -50px;
 }

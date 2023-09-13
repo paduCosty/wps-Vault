@@ -3,24 +3,23 @@
         <div class="row d-flex justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                 <div class="card">
-                    <form class="form-card">
-                        <div class="row justify-content-between text-left mb-3">
-                            <div class="col-sm-10 flex-column d-flex">
-                                <div class="row justify-content-between text-left mb-3">
-                                    <CustomersSelectorComponent  class="form-control- label">
-                                    </CustomersSelectorComponent>
 
-                                </div>
-                            </div>
+                    <form class="form-card" @submit.prevent="addInvoices">
+                        <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
 
-                        </div>
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Invoice Number<span
                                         class="text-danger"></span></label>
-                                <input type="number" placeholder="Invoice Number" class="form-control">
+                                <input v-model="invoice_number" placeholder="Invoice Number" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6 flex-column d-flex">
+                                <CustomersSelect class="form-control-label" ref="customers_select">
+                                </CustomersSelect>
                             </div>
                         </div>
+
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Due Date<span class="text-danger"></span></label>
@@ -36,6 +35,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="row justify-content-between text-left mb-3">
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Currency<span class="text-danger"></span></label>
@@ -45,6 +45,7 @@
                                     <option value="usd">USD</option>
                                 </select>
                             </div>
+
                             <div class="col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Type<span class="text-danger"></span></label>
                                 <select v-model="type" class="form-select">
@@ -52,10 +53,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row justify-content-end">
-                            <div class="form-group col-sm-6">
-                                <input value="Add New Invoices" type="button" @click.prevent="addInvoices" id="addInvoices"
-                                    class="btn-block btn-danger">
+
+                        <InvoiceItems ref="invoiceItems"></InvoiceItems>
+
+                        <div class="row justify-content-end mb-3">
+                            <div class="form-group col-sm-5" style="margin-top: -30px;">
+                                <button type="submit" class="btn-block btn-danger mt-0">Add New Invoices</button>
                             </div>
                         </div>
                     </form>
@@ -64,31 +67,34 @@
         </div>
     </div>
 </template>
-  
-  
+
 
 <script>
 import axios from 'axios';
+import CustomersSelect from '../Commons/CustomersSelect.vue';
+import InvoiceItems from './InvoiceItems.vue';
 
-import CustomersSelectorComponent from '../Commons/CustomersSelectorComponent.vue';
 export default {
     components: {
-        CustomersSelectorComponent,
+        CustomersSelect,
+        InvoiceItems,
     },
     data() {
         return {
-            showTable: true,
+            selected_customer: '',
             customer_id: '',
             invoice_number: '',
             due_date: '',
             payment_term: '',
-            payment_term_options: [],
+            payment_term_options: ['7', '12', '14'],
             currency: 'ron',
             type: 'general',
             customers: [],
+
         };
     },
     methods: {
+
         async addInvoices() {
             try {
                 const csrfMeta = document.head.querySelector('meta[name="csrf-token"]');
@@ -101,44 +107,35 @@ export default {
                 if (csrfToken) {
                     headers['X-CSRF-TOKEN'] = csrfToken;
                 }
-            
-alert(this.customer_id);
-                const response = await axios.post("/api/invoices", {
-                    customer_id: this.customer_id,
+
+                const data = {
+                    customer_id: this.$refs.customers_select.selected_customer,
                     invoice_number: this.invoice_number,
                     due_date: this.due_date,
                     payment_term: this.payment_term,
                     currency: this.currency,
                     type: this.type,
-                }, {
+                    items: this.$refs.invoiceItems.getItemsData()
+
+                };
+                const response = await axios.post("/api/invoices", data, {
                     headers: headers,
                 });
-
+                console.log(this.data);
                 if (response.status === 200) {
                     console.log("Invoice created successfully!");
                     this.$router.push("/bills");
                 } else {
-                    console.error("Error creating Invoice:");
+                    console.error("Error creating Invoice:", response.data);
                 }
             } catch (error) {
                 console.error("Error creating Invoice:", error);
-                // console.log(this.customer_id);
-                // console.log(CustomersSelectorComponent, 'sdsd');
-                alert(this.customers);
             }
         },
-        async fetchPaymentTermOptions() {
-            // Simulăm o solicitare GET către server pentru a obține opțiunile de plată
-            this.payment_term_options = ['7', '14', '30'];
-
-        },
-    },
-    mounted() {
-        this.fetchPaymentTermOptions(); // Apelează metoda pentru a popula opțiunile de plată
-        // console.log(CustomersSelectorComponent);
-
     },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import '@/Assets/Components/invoices.css';
+</style>
