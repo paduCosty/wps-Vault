@@ -82,19 +82,15 @@
                                 <tr v-for="(item, index) in invoice_items" :key="index">
                                     <td class="item-number">{{ index + 1 }}.</td>
                                     <td class="item-type">
-                                        <label>Type:</label>
                                         <div class="form-label">{{ invoice.type }}</div>
                                     </td>
                                     <td class="item-currency">
-                                        <label>Currency:</label>
                                         <div class="form-label">{{ invoice.currency }}</div>
                                     </td>
                                     <td class="item-amount">
-                                        <label>Amount:</label>
                                         <div class="form-label">{{ item.amount }}</div>
                                     </td>
                                     <td class="item-description">
-                                        <label>Description:</label>
                                         <div class="form-label">{{ item.description }}</div>
                                     </td>
                                 </tr>
