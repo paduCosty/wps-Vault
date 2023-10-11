@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use Dompdf\Dompdf;
 use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class InvoiceController extends Controller
 {
@@ -21,7 +24,6 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $invoice = Invoice::with('invoiceItems', 'customer', 'user')->find($id);
-        // dd($invoice->all());
         return response()->json($invoice);
     }
 
@@ -29,8 +31,6 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::with('invoiceItems')->find($id);
-        // dd($invoice->toArray());
-        // dd($invoice)
         return response()->json($invoice, 200);
     }
     
@@ -63,7 +63,6 @@ class InvoiceController extends Controller
                 'items.*.description' => 'required|string',
                 
             ]);
-           
             // Create the main invoice
             $invoice = Invoice::create([
                 'user_id' => $user_id,
@@ -88,8 +87,6 @@ class InvoiceController extends Controller
             
             return response()->json($invoice, 200);
         }
-
-
         return response()->json(['status' => false , 'message', 'You must be authenticated']);
     }
 
@@ -149,4 +146,44 @@ class InvoiceController extends Controller
         return response()->json(null, 204);
     }
 
+   public function InvoicePDF($id)
+    {
+        try {
+            $invoice = Invoice::with('invoiceItems', 'customer', 'user', 'invoiceItems')->find($id);
+
+            $pdf = PDF::loadView('invoices.pdf', ['invoice' => $invoice]);
+
+            // Generează conținutul PDF în memorie
+            $pdfContent = $pdf->output();
+
+            // Setează antetul pentru descărcare
+            $headers = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename=invoice.pdf', // Pentru a deschide în browser
+                // Sau poți utiliza 'attachment' în loc de 'inline' pentru a forța descărcarea
+            ];
+
+            return response($pdfContent, 200, $headers);
+        } catch (Exception $e) {
+            return response('Error generating PDF', 500);
+        }
+    }
+    public function downloadPDF($id)
+    {
+        $users = User::get();
+        $invoiceItems = InvoiceItem::get();
+        $invoice = Invoice::with('invoiceItems', 'customer', 'user')->find($id);
+
+        $data = [
+            'invoice' => $invoice,
+            'users' => $users,
+            'invoiceItems' => $invoiceItems,
+        ];
+
+        $pdf = PDF::loadView('invoices.pdf', $data);
+
+        return $pdf->download('Invoice.pdf');
+    }
+
+    
 }

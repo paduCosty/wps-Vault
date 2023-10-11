@@ -36,8 +36,9 @@ Route::prefix('api')->group(function () {
     Route::post('invoices', [InvoiceController::class, 'store']);
     Route::put('invoices/{invoice}', [InvoiceController::class, 'update']);
     Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy']);
-    /*Invoices routes END*/
+    Route::get('invoices/{invoice}/pdf', 'InvoiceController@generatePDF')->name('generatePDF');
 
+    /*Invoices routes END*/
 });
 
 
