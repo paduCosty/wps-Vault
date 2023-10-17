@@ -1,7 +1,7 @@
 <template>
-    <div class="flex justify-center mt-3 sm:items-center sm:justify-between">
-        <div class="text-center">
-            <h2 class="text-center">Edit Invoice</h2>
+    <div class="Move">
+        <div class="Move">
+            <h2 class="Edit1">Edit Invoice</h2>
             <form class="form">
                 <div class="row">
 
@@ -58,8 +58,7 @@
                 <InvoiceItems :invoice_items="invoice.invoice_items" ref="invoiceItems">
                 </InvoiceItems>
 
-                <input value="Save Changes" @click.prevent="saveChanges"
-                    class="btn btn-outline-primary waves-effect my-style-button" alt="Button">
+                <input value="Save Changes" @click.prevent="saveChanges" class="btn btn-outline-info" alt="Button">
             </form>
         </div>
     </div>
@@ -71,64 +70,71 @@ import axios from "axios";
 import CustomersSelect from "../Commons/CustomersSelect.vue";
 import InvoiceItems from './InvoiceItems.vue';
 
-export default {
-    components: {
-        InvoiceItems,
-        CustomersSelect,
-    },
-    data() {
-        return {
-            selectedCustomer: '',
-            invoice: {
-                invoice_id: '',
-                customer_id: '',
-                invoice_number: '',
-                due_date: '',
-                payment_term: '',
-                currency: '',
-                type: 'general',
-                customers: [],
-            },
-        };
-    },
-    methods: {
-        async fetchInvoice(id) {
-            try {
-                const response = await axios.get(`/api/invoices/${id}/edit`);
-                this.invoice = response.data;
+    export default {
+        components: {
+            InvoiceItems,
+            CustomersSelect,
+        },
+        data() {
+            return {
+                selectedCustomer: '',
+                invoice: {
+                    invoice_id: '',
+                    customer_id: '',
+                    invoice_number: '',
+                    due_date: '',
+                    payment_term: '',
+                    currency: '',
+                    type: 'general',
+                    customers: [],
+                },
+            };
+        },
+        methods: {
+            async fetchInvoice(id) {
+                try {
+                    const response = await axios.get(`/api/invoices/${id}/edit`);
+                    this.invoice = response.data;
 
-            } catch (error) {
-                console.error("Error fetching invoice:", error);
+                } catch (error) {
+                    console.error("Error fetching invoice:", error);
+                }
+            },
+            async saveChanges() {
+                try {
+                    const response = await axios.put(`/api/invoices/${this.invoice.id}`, {
+                        customer_id: this.invoice.customer_id,
+                        invoice_number: this.invoice.invoice_number,
+                        due_date: this.invoice.due_date,
+                        payment_term: this.invoice.payment_term,
+                        currency: this.invoice.currency,
+                        type: this.invoice.type,
+                        items: this.$refs.invoiceItems.getItemsData(),
+                    });
+
+
+                    this.$router.push("/bills"); // Redirect to back route
+
+                } catch (error) {
+                    console.error("Error saving changes:", error);
+                }
             }
         },
-        async saveChanges() {
-            try {
-                const response = await axios.put(`/api/invoices/${this.invoice.id}`, {
-                    customer_id: this.invoice.customer_id,
-                    invoice_number: this.invoice.invoice_number,
-                    due_date: this.invoice.due_date,
-                    payment_term: this.invoice.payment_term,
-                    currency: this.invoice.currency,
-                    type: this.invoice.type,
-                    items: this.$refs.invoiceItems.getItemsData(),
-                });
-
-
-                this.$router.push("/bills"); // Redirect to back route
-
-            } catch (error) {
-                console.error("Error saving changes:", error);
-            }
+        async created() {
+            const invoiceId = this.$route.params.id;
+            await this.fetchInvoice(invoiceId);
         }
-    },
-    async created() {
-        const invoiceId = this.$route.params.id;
-        await this.fetchInvoice(invoiceId);
-    }
-};
+    };
 </script>
 
 
 <style scoped>
-@import '@/Assets/Components/invoices.css';
+.Move {
+
+    margin-left: 170px;
+}
+
+.Edit1 {
+    margin-left: -650px;
+}
 </style>

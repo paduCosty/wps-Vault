@@ -21,6 +21,9 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                if (!Auth::check()) {
+                    return response()->json(['status' => false, 'message' => 'You must be authenticated'], 401);
+                }
                 return redirect(RouteServiceProvider::HOME);
             }
         }

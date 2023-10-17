@@ -57,8 +57,8 @@
                         <InvoiceItems ref="invoiceItems"></InvoiceItems>
 
                         <div class="row justify-content-end mb-3">
-                            <div class="form-group col-sm-5" style="margin-top: -30px;">
-                                <button type="submit" class="btn-block btn-danger mt-0">Add New Invoices</button>
+                            <div class="form-group col-sm-5" style="margin-right: 400px;">
+                                <button type="submit" class="btn-block btn-danger">Add New Invoices</button>
                             </div>
                         </div>
                     </form>
@@ -74,68 +74,66 @@ import axios from 'axios';
 import CustomersSelect from '../Commons/CustomersSelect.vue';
 import InvoiceItems from './InvoiceItems.vue';
 
-export default {
-    components: {
-        CustomersSelect,
-        InvoiceItems,
-    },
-    data() {
-        return {
-            selected_customer: '',
-            customer_id: '',
-            invoice_number: '',
-            due_date: '',
-            payment_term: '',
-            payment_term_options: ['7', '12', '14'],
-            currency: 'ron',
-            type: 'general',
-            customers: [],
-
-        };
-    },
-    methods: {
-
-        async addInvoices() {
-            try {
-                const csrfMeta = document.head.querySelector('meta[name="csrf-token"]');
-                const csrfToken = csrfMeta ? csrfMeta.content : null;
-
-                const headers = {
-                    'Content-Type': 'application/json',
-                };
-
-                if (csrfToken) {
-                    headers['X-CSRF-TOKEN'] = csrfToken;
-                }
-
-                const data = {
-                    customer_id: this.$refs.customers_select.selected_customer,
-                    invoice_number: this.invoice_number,
-                    due_date: this.due_date,
-                    payment_term: this.payment_term,
-                    currency: this.currency,
-                    type: this.type,
-                    items: this.$refs.invoiceItems.getItemsData()
-
-                };
-                const response = await axios.post("/api/invoices", data, {
-                    headers: headers,
-                });
-                console.log(this.data);
-                if (response.status === 200) {
-                    console.log("Invoice created successfully!");
-                    this.$router.push("/bills");
-                } else {
-                    console.error("Error creating Invoice:", response.data);
-                }
-            } catch (error) {
-                console.error("Error creating Invoice:", error);
-            }
+    export default {
+        components: {
+            CustomersSelect,
+            InvoiceItems,
         },
-    },
-};
+        data() {
+            return {
+                selected_customer: '',
+                customer_id: '',
+                invoice_number: '',
+                due_date: '',
+                payment_term: '',
+                payment_term_options: ['7', '12', '14'],
+                currency: 'ron',
+                type: 'general',
+                customers: [],
+
+            };
+        },
+        methods: {
+
+            async addInvoices() {
+                try {
+                    const csrfMeta = document.head.querySelector('meta[name="csrf-token"]');
+                    const csrfToken = csrfMeta ? csrfMeta.content : null;
+
+                    const headers = {
+                        'Content-Type': 'application/json',
+                    };
+
+                    if (csrfToken) {
+                        headers['X-CSRF-TOKEN'] = csrfToken;
+                    }
+
+                    const data = {
+                        customer_id: this.$refs.customers_select.selected_customer,
+                        invoice_number: this.invoice_number,
+                        due_date: this.due_date,
+                        payment_term: this.payment_term,
+                        currency: this.currency,
+                        type: this.type,
+                        items: this.$refs.invoiceItems.getItemsData()
+
+                    };
+                    const response = await axios.post("/api/invoices", data, {
+                        headers: headers,
+                    });
+                    console.log(this.data);
+                    if (response.status === 200) {
+                        console.log("Invoice created successfully!");
+                        this.$router.push("/bills");
+                    } else {
+                        console.error("Error creating Invoice:", response.data);
+                    }
+                } catch (error) {
+                    console.error("Error creating Invoice:", error);
+                }
+            },
+        },
+    };
 </script>
 
-<style scoped>
-@import '@/Assets/Components/invoices.css';
-</style>
+<style scoped></style>
