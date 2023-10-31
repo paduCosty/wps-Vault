@@ -16,12 +16,14 @@ import InvoiceList from "../Components/Invoices/InvoiceList.vue";
 import InvoiceShow from "../Components/Invoices/InvoiceShow.vue";
 // End invoices
 
+// Inport User Profile
+import UserProfile from "../Components/Commons/UserProfile.vue";
+// End Users
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
 
-
-        /*Modifica aici rutele pentru facturi vafi tot asa un crud*/
 
         { path: '/bills/', component: InvoiceList },
         { path: '/bills/create', component: InvoiceForm },
@@ -39,7 +41,8 @@ const router = createRouter({
         { path: '/customers/show/:id', component: CustomerShowForm },
 
 
-
+        { path: '/user-profile', component: UserProfile },
+        // { path: '/logout', name: 'logout', component: Logout, },
 
         // { path: '/portfolio', component: Portfolio },
         // { path: '/contact', component: Contact },

@@ -65,7 +65,7 @@
 
                             <div class="row mb-3">
                                 <label for="address"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Adress') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="address" type="text"

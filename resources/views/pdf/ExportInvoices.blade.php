@@ -86,7 +86,11 @@
                                     </td>
                                 </tr>
                             @endforeach
-
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="total-amount">Total Amount => {{ $totalAmount }} {{ $invoice->currency }}</td>
                         </tbody>
                     </table>
                 </div>

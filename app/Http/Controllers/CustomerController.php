@@ -6,7 +6,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Requests\ValidateCustomer;
 class CustomerController extends Controller
 {
 
@@ -34,7 +34,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
-
+        
         $validatedData = $request->validate([
             'contact_name' => 'required',
             'company_name' => 'required',

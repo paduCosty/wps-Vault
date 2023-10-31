@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\Controller;
+use App\Http\Controllers\AuthController;
+use App\Http\Middleware\Authenticate;
+use App\Http\Controllers\Auth\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::routes();
 
 Route::prefix('api')->group(function () {
     /*customers routes START*/
@@ -38,12 +43,22 @@ Route::prefix('api')->group(function () {
     Route::put('invoices/{invoice}', [InvoiceController::class, 'update']);
     Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy']);
     /*Invoices routes END*/
+
+    
+    /*User routes START*/
+    Route::get('/user-profile', [UserController::class, 'UserProfile'])->middleware('auth');
+    Route::put('/user-profile/update', [UserController::class, 'update'])->middleware('auth');
+    /*User routes END*/
+
+    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 });
+
+
+Auth::routes();
+
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
 Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate-pdf');
-
-
-
-
 
 Route::get('/{any}', function () {
     return view('app');

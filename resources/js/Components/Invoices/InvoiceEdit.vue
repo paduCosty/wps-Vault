@@ -1,5 +1,5 @@
 <template>
-    <div class="Move">
+    <div id="app" class="Move">
         <div class="Move">
             <h2 class="Edit1">Edit Invoice</h2>
             <form class="form">
@@ -70,61 +70,61 @@ import axios from "axios";
 import CustomersSelect from "../Commons/CustomersSelect.vue";
 import InvoiceItems from './InvoiceItems.vue';
 
-    export default {
-        components: {
-            InvoiceItems,
-            CustomersSelect,
-        },
-        data() {
-            return {
-                selectedCustomer: '',
-                invoice: {
-                    invoice_id: '',
-                    customer_id: '',
-                    invoice_number: '',
-                    due_date: '',
-                    payment_term: '',
-                    currency: '',
-                    type: 'general',
-                    customers: [],
-                },
-            };
-        },
-        methods: {
-            async fetchInvoice(id) {
-                try {
-                    const response = await axios.get(`/api/invoices/${id}/edit`);
-                    this.invoice = response.data;
-
-                } catch (error) {
-                    console.error("Error fetching invoice:", error);
-                }
+export default {
+    components: {
+        InvoiceItems,
+        CustomersSelect,
+    },
+    data() {
+        return {
+            selectedCustomer: '',
+            invoice: {
+                invoice_id: '',
+                customer_id: '',
+                invoice_number: '',
+                due_date: '',
+                payment_term: '',
+                currency: '',
+                type: 'general',
+                customers: [],
             },
-            async saveChanges() {
-                try {
-                    const response = await axios.put(`/api/invoices/${this.invoice.id}`, {
-                        customer_id: this.invoice.customer_id,
-                        invoice_number: this.invoice.invoice_number,
-                        due_date: this.invoice.due_date,
-                        payment_term: this.invoice.payment_term,
-                        currency: this.invoice.currency,
-                        type: this.invoice.type,
-                        items: this.$refs.invoiceItems.getItemsData(),
-                    });
+        };
+    },
+    methods: {
+        async fetchInvoice(id) {
+            try {
+                const response = await axios.get(`/api/invoices/${id}/edit`);
+                this.invoice = response.data;
 
-
-                    this.$router.push("/bills"); // Redirect to back route
-
-                } catch (error) {
-                    console.error("Error saving changes:", error);
-                }
+            } catch (error) {
+                console.error("Error fetching invoice:", error);
             }
         },
-        async created() {
-            const invoiceId = this.$route.params.id;
-            await this.fetchInvoice(invoiceId);
+        async saveChanges() {
+            try {
+                const response = await axios.put(`/api/invoices/${this.invoice.id}`, {
+                    customer_id: this.invoice.customer_id,
+                    invoice_number: this.invoice.invoice_number,
+                    due_date: this.invoice.due_date,
+                    payment_term: this.invoice.payment_term,
+                    currency: this.invoice.currency,
+                    type: this.invoice.type,
+                    items: this.$refs.invoiceItems.getItemsData(),
+                });
+
+
+                this.$router.push("/bills"); // Redirect to back route
+
+            } catch (error) {
+                console.error("Error saving changes:", error);
+            }
         }
-    };
+    },
+    async created() {
+        const invoiceId = this.$route.params.id;
+        await this.fetchInvoice(invoiceId);
+    }
+};
 </script>
 
 

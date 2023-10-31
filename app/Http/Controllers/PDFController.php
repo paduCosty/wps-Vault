@@ -7,7 +7,9 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\User;
 use App\Models\Customer;
+use App\Http\Requests\PDFService;
 use PDF;
+
 class PDFController extends Controller
 {
     /**
@@ -16,27 +18,11 @@ class PDFController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function generatePDF($id)
+    public function generatePDF(PDFService $pdfService, $id)
     {
-        $invoice = Invoice::find($id);
-        $invoice_items = InvoiceItem::where('invoice_id', $id)->get();
-    
-    
-        $user = User::find($invoice->user_id);
-        $customer = Customer::find($invoice->customer_id);
-    
-        $data = [
-            'invoice' => $invoice,
-            'invoice_items' => $invoice_items,
-            'user' => $user,
-            'customer' => $customer,
-        ];
-    
-        $pdf = PDF::loadView('pdf.ExportInvoices', $data);
-        // dd($invoice);
-    
-        return $pdf->stream('itsolutionstuff.pdf');
+        $pdf = $pdfService->generateInvoicePDF($id);
+
+        return $pdf->stream();
     }
-     
 
 }

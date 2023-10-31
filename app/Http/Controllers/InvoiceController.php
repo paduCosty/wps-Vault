@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade as PDF;
-use App\Http\Requests\ValidateRequest;
+use App\Http\Requests\ValidateInvoice;
+use App\Http\Requests\PDFService;
+
 
 
 class InvoiceController extends Controller
@@ -37,14 +39,8 @@ class InvoiceController extends Controller
     }
     
     
-    public function store(ValidateRequest $request)
+    public function store(ValidateInvoice $validatedData, PDFService $pdfService)
     {
-        if (!Auth::check()) {
-            return response()->json(['status' => false, 'message' => 'You must be authenticated'], 401);
-        }
-    
-        $validatedData = $request->validated();
-
         $invoice = Invoice::create([
             'user_id' => Auth::user()->id,
             'customer_id' => $validatedData['customer_id'],
@@ -55,50 +51,25 @@ class InvoiceController extends Controller
             'type' => $validatedData['type'],
         ]);
     
-        $invoice->invoiceItems()->createMany(
-            array_map(
-                function ($item) {
-                    return [
-                        'amount' => $item['amount'] ?? null,
-                        'description' => $item['description'] ?? null,
-                    ];
-                },
-                array_filter($validatedData['items'])
-            )
-        );
+        $pdf = $pdfService->generateInvoicePDF($invoice->id);
+    
         return response()->json($invoice, 200);
     }
-    
 
-    public function update(ValidateRequest $request, Invoice $invoice)
+
+    public function update(Invoice $invoice, $id, PDFService $pdfService)
     {
-        if ($invoice->user_id !== Auth::user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-    
-        $validatedData = $request->validated();
-    
+        $validatedData = ValidateInvoice::validate($request);
+
         $invoice->fill($validatedData);
         $invoice->save();
-    
-        $invoice->invoiceItems()->delete();
-        $invoice->invoiceItems()->createMany(
-            array_map(
-                function ($item) {
-                    return [
-                        'amount' => $item['amount'] ?? null,
-                        'description' => $item['description'] ?? null,
-                    ];
-                },
-                array_filter($validatedData['items'])
-            )
-        );
-    
+
+        $pdf = $pdfService->generateInvoicePDF($invoice->id);
+
         return response()->json($invoice, 200);
     }
-    
-    
-    
+
+
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();

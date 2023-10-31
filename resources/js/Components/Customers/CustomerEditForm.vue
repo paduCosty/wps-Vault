@@ -3,32 +3,31 @@
         <div class="text-center">
             <h2 class="text-center">{{ customer.contact_name }}</h2>
             <form class="form">
-                <div class=" row">
+                <div class="row">
                     <div class="col-md-4">
-                        
-                        <div class="form-group custom-background">
-                            <label for=" company_name">Company Name:</label>
+                        <div class="form-group">
+                            <label for="company_name">Company Name:</label>
                             <input class="form-control" type="text" id="company_name" v-model="customer.company_name" />
                         </div>
 
-                        <div class="form-group custom-background">
+                        <div class="form-group">
                             <label for="contact_name">Contact Name:</label>
                             <input class="form-control" type="text" id="contact_name" v-model="customer.contact_name" />
                         </div>
 
-                        <div class="form-group custom-background">
+                        <div class="form-group">
                             <label for="email">E-mail:</label>
                             <input class="form-control" type="email" id="email" v-model="customer.email" />
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="form-group custom-background">
+                        <div class="form-group">
                             <label for="vat_number">VAT Number:</label>
                             <input class="form-control" type="text" id="vat_number" v-model="customer.vat_number" />
                         </div>
 
-                        <div class="form-group custom-background">
+                        <div class="form-group ">
                             <label for="type">Type:</label>
                             <select class="form-control" id="type" v-model="customer.type">
                                 <option value="Business">Business</option>
@@ -40,7 +39,7 @@
                     </div>
                 </div>
 
-                <button @click.prevent="saveChanges" class="rainbow-button" alt="Button">SaveChanges</button>
+                <button @click.prevent="saveChanges" class="btn btn-outline-info" alt="Button">SaveChanges</button>
             </form>
         </div>
     </div>
@@ -49,6 +48,7 @@
 
 <script>
 import axios from "axios";
+
     export default {
         data() {
             return {
@@ -85,7 +85,10 @@ import axios from "axios";
         },
         created() {
             const customerId = this.$route.params.id;
-            this.fetchCustomer(customerId);
+            if (customerId) {
+                this.fetchCustomer(customerId);
+            }
+
         },
     };
 </script>
